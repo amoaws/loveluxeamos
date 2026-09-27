@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta charset="UTF-8" />
@@ -913,23 +913,6 @@
       arr[0] = item;
     }
 
-    function manualTrim(str) {
-      if (!str) return '';
-      let start = 0;
-      while (start < str.length && (str[start] === ' ' || str[start] === '\t' || str[start] === '\n' || str[start] === '\r')) {
-        start++;
-      }
-      let end = str.length - 1;
-      while (end >= start && (str[end] === ' ' || str[end] === '\t' || str[end] === '\n' || str[end] === '\r')) {
-        end--;
-      }
-      let result = '';
-      for (let i = start; i <= end; i++) {
-        result += str[i];
-      }
-      return result;
-    }
-
     function containsSubstring(text, query) {
       if (query.length === 0) return true;
       for (let i = 0; i <= text.length - query.length; i++) {
@@ -1320,15 +1303,15 @@
       showBookingMsg('', false);
     });
 
-    // PROPERLY PLACED: Form submit handles clientName and logging
+    // PROPERLY PLACED: Form submit handles clientName and logging (Using native .trim())
     document.getElementById('bookingForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const clientName = manualTrim(document.getElementById('bookClientName').value);
+      const clientName = document.getElementById('bookClientName').value.trim();
       const serviceChoice = document.getElementById('bookService').value;
-      const otherServiceVal = manualTrim(document.getElementById('bookServiceOther').value);
-      const date = manualTrim(document.getElementById('bookDate').value);
-      const time = manualTrim(document.getElementById('bookTime').value);
+      const otherServiceVal = document.getElementById('bookServiceOther').value.trim();
+      const date = document.getElementById('bookDate').value.trim();
+      const time = document.getElementById('bookTime').value.trim();
 
       if (clientName.length === 0) {
         showBookingMsg('⚠️ Please enter Client Name.', true);
@@ -1446,7 +1429,7 @@
 
     setInterval(function () {
       const query = document.getElementById('appointmentSearchInput').value;
-      if (manualTrim(query) !== '') {
+      if (query.trim() !== '') {
         searchAppointments();
       } else {
         renderAppointments();
@@ -1835,7 +1818,7 @@
     }
 
     // ==========================================================
-    // RECORD TRANSACTION (Properly reads custDate + builds rawTimestamp)
+    // RECORD TRANSACTION (Using native .trim())
     // ==========================================================
     function recordTransaction() {
       if (cart.length === 0) {
@@ -1848,10 +1831,10 @@
       const addressInput = document.getElementById('custAddress');
       const dateInput = document.getElementById('custDate');
 
-      const name = manualTrim(nameInput.value);
-      const contact = manualTrim(contactInput.value);
-      const address = manualTrim(addressInput.value);
-      const selectedDate = manualTrim(dateInput.value);
+      const name = nameInput.value.trim();
+      const contact = contactInput.value.trim();
+      const address = addressInput.value.trim();
+      const selectedDate = dateInput.value.trim();
 
       if (name.length === 0) {
         alert('⚠️ Please enter Customer Name.');
