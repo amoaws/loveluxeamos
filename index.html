@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Love Luxe by EA - Admin Portal</title>
+
+  <link rel="icon" type="image/png" href="loveluxe2.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
 
   <style>
     :root {
@@ -22,92 +28,449 @@
       --sidebar-width: 250px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { display: flex; height: 100vh; background: var(--bg-body); color: var(--text-main); overflow: hidden; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background: var(--bg-body);
+      color: var(--text-main);
+      overflow: hidden;
+    }
 
     /* SIDEBAR */
-    aside { width: var(--sidebar-width); background: var(--brand-black); color: #fff; display: flex; flex-direction: column; flex-shrink: 0; }
-    .brand-header { padding: 22px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
-    .brand-title { font-family: 'Cinzel', serif; font-size: 1.25rem; letter-spacing: 2px; color: var(--brand-gold); }
-    .brand-sub { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 2px; color: #888; margin-top: 4px; }
+    aside {
+      width: var(--sidebar-width);
+      background: var(--brand-black);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
 
-    .nav-list { list-style: none; padding: 16px 12px; overflow-y: auto; flex-grow: 1; }
-    .nav-section-label { font-size: 0.68rem; text-transform: uppercase; color: #666; letter-spacing: 1px; padding: 12px 12px 6px; font-weight: 600; }
-    .nav-item { display: flex; align-items: center; padding: 10px 14px; margin-bottom: 4px; border-radius: 8px; color: #a0aec0; cursor: pointer; font-size: 0.88rem; font-weight: 500; transition: all 0.2s; }
-    .nav-item:hover { color: #fff; background: rgba(197, 160, 89, 0.12); }
-    .nav-item.active { color: #fff; background: var(--brand-gold); font-weight: 600; }
+    .brand-header {
+      padding: 22px 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      letter-spacing: 2px;
+      color: var(--brand-gold);
+    }
+
+    .brand-sub {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 16px 12px;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+
+    .nav-section-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      color: #666;
+      letter-spacing: 1px;
+      padding: 12px 12px 6px;
+      font-weight: 600;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      margin-bottom: 4px;
+      border-radius: 8px;
+      color: #a0aec0;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .nav-item:hover {
+      color: #fff;
+      background: rgba(197, 160, 89, 0.12);
+    }
+
+    .nav-item.active {
+      color: #fff;
+      background: var(--brand-gold);
+      font-weight: 600;
+    }
 
     /* MAIN CONTENT */
-    .app-main { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
-    header { height: 70px; background: #fff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
-    .page-title { font-size: 1.25rem; font-weight: 700; }
-    .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--brand-gold); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-    .content-area { flex-grow: 1; padding: 28px 32px; overflow-y: auto; scroll-behavior: smooth; }
+    .app-main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
-    .view-panel { display: none; }
-    .view-panel.active-view { display: block; }
+    header {
+      height: 70px;
+      background: #fff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
 
-    .card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); padding: 22px; margin-bottom: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 24px; }
-    .stat-card { background: #fff; border: 1px solid var(--border-color); padding: 18px; border-radius: 12px; }
-    .stat-card .label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
-    .stat-card .value { font-size: 1.5rem; font-weight: 700; margin-top: 6px; }
+    .page-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--brand-gold);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .content-area {
+      flex-grow: 1;
+      padding: 28px 32px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+
+    .view-panel {
+      display: none;
+    }
+
+    .view-panel.active-view {
+      display: block;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      padding: 22px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      padding: 18px;
+      border-radius: 12px;
+    }
+
+    .stat-card .label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .stat-card .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 6px;
+    }
 
     /* POS GRID */
-    .pos-grid { display: grid; grid-template-columns: 1.15fr 1.25fr; gap: 24px; }
-    .category-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-    .cat-btn { background: #fff; border: 1px solid var(--border-color); padding: 7px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
-    .cat-btn:hover { border-color: var(--brand-gold); color: var(--brand-gold); }
-    .cat-btn.active { background: var(--brand-gold); color: #fff; border-color: var(--brand-gold); }
+    .pos-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1.25fr;
+      gap: 24px;
+    }
 
-    .item-catalog { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; max-height: 480px; overflow-y: auto; min-height: 180px; }
-    .product-box { border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; text-align: center; cursor: pointer; background: #fff; transition: 0.2s; }
-    .product-box:hover { border-color: var(--brand-gold); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(197, 160, 89, 0.15); }
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .cat-btn {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .cat-btn:hover {
+      border-color: var(--brand-gold);
+      color: var(--brand-gold);
+    }
+
+    .cat-btn.active {
+      background: var(--brand-gold);
+      color: #fff;
+      border-color: var(--brand-gold);
+    }
+
+    .item-catalog {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      max-height: 480px;
+      overflow-y: auto;
+      min-height: 180px;
+    }
+
+    .product-box {
+      border: 1px solid var(--border-color);
+      padding: 14px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      background: #fff;
+      transition: 0.2s;
+    }
+
+    .product-box:hover {
+      border-color: var(--brand-gold);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(197, 160, 89, 0.15);
+    }
 
     /* FORMS & TABLES */
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-    .form-group { margin-bottom: 10px; }
-    .form-group label { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-    .form-control { width: 100%; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; outline: none; }
-    .form-control:focus { border-color: var(--brand-gold); }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
 
-    .qty-btn { background: #edf2f7; border: none; width: 22px; height: 22px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-    .qty-btn:hover { background: var(--brand-gold); color: #fff; }
-    .btn { background: var(--brand-black); color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-size: 0.88rem; font-weight: 600; cursor: pointer; }
-    .btn-gold { background: var(--brand-gold); color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 0.95rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 14px; }
-    .btn-gold:hover { background: #ac8740; }
+    .form-group {
+      margin-bottom: 10px;
+    }
 
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; }
-    th { background: #fafafa; color: var(--text-muted); font-size: 0.72rem; text-transform: uppercase; }
+    .form-group label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
 
-    .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; }
-    .badge-success { background: #dcfce7; color: #166534; }
-    .badge-gold { background: #f7edd7; color: #855f13; }
-    .badge-danger { background: var(--danger-bg); color: var(--danger); font-weight: 700; }
+    .form-control {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      outline: none;
+    }
 
-    .anomaly-row { background-color: #fff5f5; }
+    .form-control:focus {
+      border-color: var(--brand-gold);
+    }
+
+    .phone-input-group {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .phone-prefix {
+      background: #f0f2f5;
+      border: 1px solid var(--border-color);
+      border-right: none;
+      padding: 8px 12px;
+      border-radius: 6px 0 0 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      user-select: none;
+    }
+
+    .phone-input-group .form-control {
+      border-radius: 0 6px 6px 0;
+    }
+
+    .qty-btn {
+      background: #edf2f7;
+      border: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .qty-btn:hover {
+      background: var(--brand-gold);
+      color: #fff;
+    }
+
+    .btn {
+      background: var(--brand-black);
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-gold {
+      background: var(--brand-gold);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 14px;
+    }
+
+    .btn-gold:hover {
+      background: #ac8740;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th,
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.85rem;
+    }
+
+    th {
+      background: #fafafa;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .badge-success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-gold {
+      background: #f7edd7;
+      color: #855f13;
+    }
+
+    .badge-danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .anomaly-row {
+      background-color: #fff5f5;
+    }
 
     /* RECEIPT */
-    #receipt-section { display: none; margin-top: 24px; margin-bottom: 30px; }
-    .receipt-paper { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 36px 40px; max-width: 580px; margin: 0 auto; box-shadow: 0 4px 14px rgba(0,0,0,0.04); }
-    .dotted-line { border: none; border-top: 1.5px dashed #333; margin: 12px 0 16px; }
-    .sec-head { font-size: 0.82rem; font-weight: 700; margin: 16px 0 6px; text-transform: uppercase; }
-    .rec-table th { background: transparent; border-bottom: 1px dashed #333; color: #000; padding: 6px 0; }
-    .rec-table td { border: none; padding: 6px 0; font-size: 0.88rem; }
+    #receipt-section {
+      display: none;
+      margin-top: 24px;
+      margin-bottom: 30px;
+    }
+
+    .receipt-paper {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 36px 40px;
+      max-width: 580px;
+      margin: 0 auto;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+
+    .dotted-line {
+      border: none;
+      border-top: 1.5px dashed #333;
+      margin: 12px 0 16px;
+    }
+
+    .sec-head {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin: 16px 0 6px;
+      text-transform: uppercase;
+    }
+
+    .rec-table th {
+      background: transparent;
+      border-bottom: 1px dashed #333;
+      color: #000;
+      padding: 6px 0;
+    }
+
+    .rec-table td {
+      border: none;
+      padding: 6px 0;
+      font-size: 0.88rem;
+    }
 
     /* ---- BOOKING MODAL ---- */
     .modal-overlay {
       display: none;
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: rgba(17, 17, 17, 0.55);
       align-items: center;
       justify-content: center;
       padding: 20px;
       z-index: 100;
     }
-    .modal-overlay.open { display: flex; }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
     .modal {
       background: #fff;
       border-radius: 12px;
@@ -117,39 +480,100 @@
       max-height: 90vh;
       overflow-y: auto;
     }
-    .modal h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 16px; }
-    .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
-    .modal-actions button { margin-top: 0; }
-    .btn-secondary { background: #fff; color: var(--text-main); border: 1px solid var(--border-color) !important; }
-    .btn-secondary:hover { background: #f1f1f1; }
-    .msg { margin-top: 8px; font-size: 0.82rem; min-height: 16px; }
-    .msg.error { color: var(--danger); }
-    .msg.ok { color: #166534; }
-    .badge-upcoming { background: var(--badge-gold-bg, #f7edd7); color: #855f13; }
+
+    .modal h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .modal-actions button {
+      margin-top: 0;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--text-main);
+      border: 1px solid var(--border-color) !important;
+    }
+
+    .btn-secondary:hover {
+      background: #f1f1f1;
+    }
+
+    .msg {
+      margin-top: 10px;
+      font-size: 0.82rem;
+      min-height: 16px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .msg.error {
+      color: var(--danger);
+      background: var(--danger-bg);
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+
+    .msg.ok {
+      color: #166534;
+      background: #dcfce7;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
 
     /* ---- RESPONSIVE ---- */
     @media (max-width: 900px) {
-      .pos-grid { grid-template-columns: 1fr; }
+      .pos-grid {
+        grid-template-columns: 1fr;
+      }
     }
+
     @media (max-width: 640px) {
-      .card { overflow-x: auto; }
+      .card {
+        overflow-x: auto;
+      }
     }
 
     /* ---- PRINT (receipt only) ---- */
     @media print {
-      body * { visibility: hidden; }
-      #receipt-section, #receipt-section * { visibility: visible; }
+      body * {
+        visibility: hidden;
+      }
+
+      #receipt-section,
+      #receipt-section * {
+        visibility: visible;
+      }
+
       #receipt-section {
         position: absolute;
-        top: 0; left: 0;
+        top: 0;
+        left: 0;
         width: 100%;
         margin: 0;
       }
-      .receipt-paper { box-shadow: none; border: none; max-width: 100%; }
-      #printReceiptBtn { display: none; }
+
+      .receipt-paper {
+        box-shadow: none;
+        border: none;
+        max-width: 100%;
+      }
+
+      #printReceiptBtn {
+        display: none;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- SIDEBAR -->
@@ -186,14 +610,27 @@
       <!-- 1. DASHBOARD -->
       <section id="view-dashboard" class="view-panel active-view">
         <div class="stats-grid">
-          <div class="stat-card"><div class="label">Today's Sales</div><div class="value">₱18,450.00</div></div>
-          <div class="stat-card"><div class="label">Total Orders</div><div class="value">14</div></div>
-          <div class="stat-card"><div class="label">Appointments Today</div><div class="value">2 Scheduled</div></div>
-          <div class="stat-card"><div class="label">Low Stock Alerts</div><div class="value" style="color: var(--danger);">2 Items</div></div>
+          <div class="stat-card">
+            <div class="label">Today's Sales</div>
+            <div class="value">₱18,450.00</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Total Orders</div>
+            <div class="value">14</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Appointments Today</div>
+            <div class="value">2 Scheduled</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Low Stock Alerts</div>
+            <div class="value" style="color: var(--danger);">2 Items</div>
+          </div>
         </div>
         <div class="card">
           <h3 style="margin-bottom: 8px;">System Active</h3>
-          <p style="color: var(--text-muted); font-size: 0.88rem;">Welcome to the Love Luxe by EA portal. All modules synchronized.</p>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">Welcome to the Love Luxe by EA portal. All modules
+            synchronized.</p>
         </div>
       </section>
 
@@ -211,7 +648,8 @@
               <button class="cat-btn" onclick="selectCategory('bodycare', this)">Body Care</button>
             </div>
             <div class="item-catalog" id="catalogGrid">
-              <div id="no-category-msg" style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 50px 10px;">
+              <div id="no-category-msg"
+                style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 50px 10px;">
                 <div style="font-size: 2rem; margin-bottom: 6px;">🛍️</div>
                 <strong>No category selected</strong>
                 <p style="font-size: 0.85rem;">Choose a category above to view products.</p>
@@ -224,7 +662,8 @@
             <h3 style="margin-bottom: 14px;">Transaction Information</h3>
 
             <!-- CUSTOMER DROPDOWN SELECTOR -->
-            <div class="form-group" style="background: #fbf9f4; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div class="form-group"
+              style="background: #fbf9f4; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
               <label style="color: var(--brand-gold);">👤 Choose Saved Customer Profile:</label>
               <select id="customerDropdown" class="form-control" onchange="onSelectCustomer(this.value)">
                 <!-- Dynamically populated from customers array -->
@@ -239,12 +678,19 @@
               </div>
               <div class="form-group">
                 <label>Customer Number *</label>
-                <input type="text" id="custContact" class="form-control" placeholder="Phone number">
+                <div class="phone-input-group">
+                  <span class="phone-prefix">+63</span>
+                  <input type="tel" id="custContact" class="form-control" placeholder="9123456789" maxlength="10"
+                    oninput="handleContactInput(this)">
+                </div>
+                <small id="contactValidationMsg"
+                  style="font-size: 0.72rem; color: var(--text-muted); display: block; margin-top: 4px;">Enter 10-digit
+                  number starting with 9</small>
               </div>
             </div>
 
             <div class="form-group">
-              <label>Address</label>
+              <label>Address *</label>
               <input type="text" id="custAddress" class="form-control" placeholder="Complete Address">
             </div>
 
@@ -258,15 +704,27 @@
               </select>
             </div>
 
-            <div class="form-group"><label>Date</label><input type="date" id="custDate" class="form-control"></div>
+            <div class="form-group"><label>Date *</label><input type="date" id="custDate" class="form-control"></div>
 
-            <h4 style="margin: 14px 0 8px; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">Selected Items</h4>
+            <h4 style="margin: 14px 0 8px; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">
+              Selected Items</h4>
             <table>
-              <thead><tr><th>Product</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Total</th></tr></thead>
-              <tbody id="cart-rows"><tr><td colspan="3" style="text-align:center; color:var(--text-muted);">No items selected</td></tr></tbody>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th style="text-align:center;">Qty</th>
+                  <th style="text-align:right;">Total</th>
+                </tr>
+              </thead>
+              <tbody id="cart-rows">
+                <tr>
+                  <td colspan="3" style="text-align:center; color:var(--text-muted);">No items selected</td>
+                </tr>
+              </tbody>
             </table>
 
-            <div style="border-top:1px dashed var(--border-color); padding-top:14px; margin-top:14px; display:flex; justify-content:space-between; font-weight:700; font-size:1.1rem;">
+            <div
+              style="border-top:1px dashed var(--border-color); padding-top:14px; margin-top:14px; display:flex; justify-content:space-between; font-weight:700; font-size:1.1rem;">
               <span>Total:</span><span id="cart-total" style="color:var(--brand-gold);">₱0.00</span>
             </div>
             <button class="btn-gold" onclick="recordTransaction()">Record Transaction</button>
@@ -278,7 +736,8 @@
           <div class="receipt-paper">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
               <div style="font-size:0.85rem; color:#666;">Output:</div>
-              <button type="button" id="printReceiptBtn" class="btn" style="padding:6px 14px; font-size:0.78rem;" onclick="printReceipt()">🖨️ Print Receipt</button>
+              <button type="button" id="printReceiptBtn" class="btn" style="padding:6px 14px; font-size:0.78rem;"
+                onclick="printReceipt()">🖨️ Print Receipt</button>
             </div>
             <div style="text-align:center; font-size:1.15rem; font-weight:600;">Transaction Receipt</div>
             <hr class="dotted-line" />
@@ -294,11 +753,19 @@
             </div>
             <div class="sec-head">ORDER DETAILS</div>
             <table class="rec-table">
-              <thead><tr><th style="width:40%;">Product</th><th style="text-align:center; width:20%;">Quantity</th><th style="text-align:right; width:20%;">Price</th><th style="text-align:right; width:20%;">Total</th></tr></thead>
+              <thead>
+                <tr>
+                  <th style="width:40%;">Product</th>
+                  <th style="text-align:center; width:20%;">Quantity</th>
+                  <th style="text-align:right; width:20%;">Price</th>
+                  <th style="text-align:right; width:20%;">Total</th>
+                </tr>
+              </thead>
               <tbody id="receipt-items-body"></tbody>
             </table>
             <hr class="dotted-line" />
-            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1rem; margin-bottom:12px;">
+            <div
+              style="display:flex; justify-content:space-between; font-weight:700; font-size:1rem; margin-bottom:12px;">
               <span>Total:</span><span id="rFinalTotal">0.00</span>
             </div>
             <div class="sec-head">PAYMENT INFORMATION</div>
@@ -311,15 +778,24 @@
       <!-- 3. APPOINTMENTS -->
       <section id="view-appointments" class="view-panel">
         <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
             <h3>Fitting & Appointments</h3>
             <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-              <input type="text" id="appointmentSearchInput" class="form-control" style="width:230px;" placeholder="🔍 Search appointments..." onkeyup="searchAppointments()">
+              <input type="text" id="appointmentSearchInput" class="form-control" style="width:230px;"
+                placeholder="🔍 Search appointments..." onkeyup="searchAppointments()">
               <button class="btn" onclick="openBookingModal()">+ New Booking</button>
             </div>
           </div>
           <table>
-            <thead><tr><th>Client Name</th><th>Service/Type</th><th>Date & Time</th><th>Status</th></tr></thead>
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>Service/Type</th>
+                <th>Date & Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
             <tbody id="appointments-rows"></tbody>
           </table>
         </div>
@@ -336,7 +812,16 @@
             </div>
             <div class="form-group">
               <label>Service / Type *</label>
-              <input type="text" id="bookService" class="form-control" placeholder="e.g. Fit & Styling" required>
+              <select id="bookService" class="form-control" onchange="onServiceSelectChange(this.value)" required>
+                <option value="">-- Select a Service --</option>
+                <option value="Size & Fitting">Size & Fitting</option>
+                <option value="Fragrance Shopping">Fragrance Shopping</option>
+                <option value="Other">Others (Please specify)</option>
+              </select>
+            </div>
+            <div class="form-group" id="otherServiceWrapper" style="display: none;">
+              <label>Specify Other Service *</label>
+              <input type="text" id="bookServiceOther" class="form-control" placeholder="Enter custom service details">
             </div>
             <div class="form-row">
               <div class="form-group">
@@ -345,8 +830,11 @@
               </div>
               <div class="form-group">
                 <label>Time *</label>
-                <input type="time" id="bookTime" class="form-control" required>
+                <input type="time" id="bookTime" class="form-control" min="09:00" max="17:00" required>
               </div>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px;">
+              🕒 <strong>Shop Hours:</strong> Mon – Sat, 9:00 AM – 5:00 PM (Closed Sundays)
             </div>
             <div class="msg" id="bookingMsg"></div>
             <div class="modal-actions">
@@ -360,19 +848,27 @@
       <!-- 4. ACTIVITY LOG -->
       <section id="view-logs" class="view-panel">
         <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
             <div>
               <h3 style="font-size:1.15rem;">System Activity Audit</h3>
             </div>
 
-            <div style="display:flex; gap:10px; align-items:center;">
-              <input type="text" id="logSearchInput" class="form-control" style="width:230px;" placeholder="🔍 Search logs..." onkeyup="linearSearchLogs()">
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <input type="text" id="logSearchInput" class="form-control" style="width:200px;"
+                placeholder="🔍 Search logs..." onkeyup="linearSearchLogs()">
 
-              <select id="sortCriteria" class="form-control" style="width:190px;" onchange="bubbleSortLogs(this.value)">
+              <select id="sortCriteria" class="form-control" style="width:170px;" onchange="bubbleSortLogs(this.value)">
                 <option value="anomalies"> ❗ANOMALY</option>
                 <option value="date-desc"> Date (Newest First)</option>
                 <option value="date-asc"> Date (Oldest First)</option>
               </select>
+
+              <button type="button" class="btn"
+                style="background:var(--brand-gold); color:#fff; display:inline-flex; align-items:center; gap:6px; padding:8px 14px;"
+                onclick="exportAuditLogPDF()">
+                📄 Export PDF
+              </button>
             </div>
           </div>
 
@@ -396,20 +892,13 @@
 
   <script>
     // ==========================================================
-    // MANUAL ARRAY HELPERS
-    // No .push, .splice, .pop, .shift, .unshift, .forEach, .find,
-    // .filter, .map, .indexOf, .sort anywhere in this file.
-    // Every array operation below is done by hand with plain loops
-    // and index assignment, per the "strictly no helpers" rule.
+    // MANUAL ARRAY HELPERS (No built-in array methods used)
     // ==========================================================
 
-    // Adds one item to the end of an array (replaces .push)
     function arrayPush(arr, item) {
       arr[arr.length] = item;
     }
 
-    // Removes the item at "index" and shifts everything after it
-    // back by one slot, then shrinks the array (replaces .splice)
     function arrayRemoveAt(arr, index) {
       for (let i = index; i < arr.length - 1; i++) {
         arr[i] = arr[i + 1];
@@ -417,8 +906,6 @@
       arr.length = arr.length - 1;
     }
 
-    // Inserts one item at the very front, shifting every existing
-    // element up by one slot first (replaces .unshift)
     function arrayUnshiftFront(arr, item) {
       for (let i = arr.length; i > 0; i--) {
         arr[i] = arr[i - 1];
@@ -426,9 +913,23 @@
       arr[0] = item;
     }
 
-    // Manual substring search (replaces String.indexOf as a
-    // "search helper" — checks every possible starting position
-    // by hand, character by character)
+    function manualTrim(str) {
+      if (!str) return '';
+      let start = 0;
+      while (start < str.length && (str[start] === ' ' || str[start] === '\t' || str[start] === '\n' || str[start] === '\r')) {
+        start++;
+      }
+      let end = str.length - 1;
+      while (end >= start && (str[end] === ' ' || str[end] === '\t' || str[end] === '\n' || str[end] === '\r')) {
+        end--;
+      }
+      let result = '';
+      for (let i = start; i <= end; i++) {
+        result += str[i];
+      }
+      return result;
+    }
+
     function containsSubstring(text, query) {
       if (query.length === 0) return true;
       for (let i = 0; i <= text.length - query.length; i++) {
@@ -444,9 +945,6 @@
       return false;
     }
 
-    // Manual replacement for .split('T')[0] — walks the ISO string
-    // character by character and stops building the result the
-    // moment it hits "T"
     function extractDatePart(isoString) {
       let result = '';
       for (let i = 0; i < isoString.length; i++) {
@@ -456,9 +954,6 @@
       return result;
     }
 
-    // Manual replacement for .padStart(targetLength, '0') — builds
-    // the zero-padded string one character at a time instead of
-    // calling the built-in
     function padNumberWithZeros(num, targetLength) {
       let str = '' + num;
       while (str.length < targetLength) {
@@ -468,8 +963,58 @@
     }
 
     // ==========================================================
-    // DATA (in-memory arrays only — no localStorage, no server.
-    // Reloading the page resets everything back to this seed data.)
+    // MANUAL CONTACT VALIDATION HELPERS (No built-in regex/methods)
+    // ==========================================================
+
+    function isDigitChar(ch) {
+      return ch >= '0' && ch <= '9';
+    }
+
+    function handleContactInput(inputElem) {
+      let raw = inputElem.value;
+      let digitsOnly = '';
+      for (let i = 0; i < raw.length; i++) {
+        let ch = raw[i];
+        if (isDigitChar(ch)) {
+          // If customer begins typing with 0 (e.g. 0912...), skip leading 0 as +63 replaces it
+          if (digitsOnly.length === 0 && ch === '0') {
+            continue;
+          }
+          if (digitsOnly.length < 10) {
+            digitsOnly += ch;
+          }
+        }
+      }
+      inputElem.value = digitsOnly;
+
+      const msg = document.getElementById('contactValidationMsg');
+      if (!msg) return;
+      if (digitsOnly.length === 0) {
+        msg.innerText = 'Enter 10-digit number starting with 9';
+        msg.style.color = 'var(--text-muted)';
+      } else if (digitsOnly[0] !== '9') {
+        msg.innerText = '⚠️ Must start with 9 (e.g. 9123456789)';
+        msg.style.color = 'var(--danger)';
+      } else if (digitsOnly.length < 10) {
+        msg.innerText = `${digitsOnly.length}/10 digits entered`;
+        msg.style.color = 'var(--brand-gold)';
+      } else {
+        msg.innerText = '✓ Valid mobile number (+63 ' + digitsOnly + ')';
+        msg.style.color = '#166534';
+      }
+    }
+
+    function isValidPhilippineMobile(num) {
+      if (!num || num.length !== 10) return false;
+      if (num[0] !== '9') return false;
+      for (let i = 0; i < num.length; i++) {
+        if (!isDigitChar(num[i])) return false;
+      }
+      return true;
+    }
+
+    // ==========================================================
+    // DATA SEED
     // ==========================================================
 
     let customers = [];
@@ -488,15 +1033,14 @@
       { name: "Velvet Body Cream", price: 750, category: "bodycare" }
     ];
 
+    // Added rawTimestamp for 100% accurate time-based Bubble Sorting
     let activityLogs = [
-      { time: "11:20 AM", user: "Unknown", action: "FAILED LOGIN ATTEMPT (3x)", date: "2024-10-24", isAnomaly: 1 },
-      { time: "10:45 AM", user: "Agustin, Amos", action: "Logged in to system", date: "2024-10-24", isAnomaly: 0 },
-      { time: "09:30 AM", user: "Vasallo, Patrick", action: "Updated stock for Luxe Handbag", date: "2024-10-23", isAnomaly: 0 },
-      { time: "03:15 PM", user: "Staff #4", action: "MANUAL STOCK OVERRIDE: -15 ITEMS", date: "2024-10-22", isAnomaly: 1 }
+      { time: "11:20 AM", user: "Unknown", action: "FAILED LOGIN ATTEMPT (3x)", date: "2024-10-24", rawTimestamp: "2024-10-24 11:20:00", isAnomaly: 1 },
+      { time: "10:45 AM", user: "Agustin, Amos", action: "Logged in to system", date: "2024-10-24", rawTimestamp: "2024-10-24 10:45:00", isAnomaly: 0 },
+      { time: "09:30 AM", user: "Vasallo, Patrick", action: "Updated stock for Luxe Handbag", date: "2024-10-23", rawTimestamp: "2024-10-23 09:30:00", isAnomaly: 0 },
+      { time: "03:15 PM", user: "Staff #4", action: "MANUAL STOCK OVERRIDE: -15 ITEMS", date: "2024-10-22", rawTimestamp: "2024-10-22 15:15:00", isAnomaly: 1 }
     ];
 
-    // No seed appointments — the table starts empty until a booking
-    // is made through the "+ New Booking" modal.
     let appointments = [];
     let nextAppointmentId = 1;
 
@@ -509,28 +1053,32 @@
       const select = document.getElementById('customerDropdown');
       let html = '<option value="new">➕ Add New Customer</option>';
       for (let i = 0; i < customers.length; i++) {
-        html += `<option value="${i}">${customers[i].name}</option>`;
+        let phoneDisplay = customers[i].contact ? ` (+63 ${customers[i].contact})` : '';
+        html += `<option value="${i}">${customers[i].name}${phoneDisplay}</option>`;
       }
       select.innerHTML = html;
     }
 
     // ON SELECTING CUSTOMER FROM DROPDOWN
     function onSelectCustomer(val) {
+      const contactInput = document.getElementById('custContact');
       if (val === 'new') {
         document.getElementById('custName').value = '';
-        document.getElementById('custContact').value = '';
+        contactInput.value = '';
         document.getElementById('custAddress').value = '';
+        handleContactInput(contactInput);
         document.getElementById('custName').focus();
       } else {
         const idx = parseInt(val);
         const c = customers[idx];
         document.getElementById('custName').value = c.name;
-        document.getElementById('custContact').value = c.contact;
+        contactInput.value = c.contact;
         document.getElementById('custAddress').value = c.address;
+        handleContactInput(contactInput);
       }
     }
 
-    // TAB SWITCHER (manual loop instead of .forEach on the NodeLists)
+    // TAB SWITCHER
     function switchTab(viewId, el) {
       const navItems = document.querySelectorAll('.nav-item');
       for (let i = 0; i < navItems.length; i++) {
@@ -546,7 +1094,7 @@
       document.getElementById('top-title').innerText = el.querySelector('span').innerText;
     }
 
-    // CATEGORY SELECTION (manual loop, no .filter())
+    // CATEGORY SELECTION
     function selectCategory(cat, btn) {
       const catButtons = document.querySelectorAll('.cat-btn');
       for (let i = 0; i < catButtons.length; i++) {
@@ -575,7 +1123,7 @@
       catalog.innerHTML = html;
     }
 
-    // CART LOGIC (manual loop instead of .find(), manual insert instead of .push())
+    // CART LOGIC
     function addToOrder(name, price) {
       let foundIndex = -1;
       for (let i = 0; i < cart.length; i++) {
@@ -630,11 +1178,6 @@
 
     // ==========================================================
     // MODULE 12: APPOINTMENTS
-    // Status is never stored on the appointment object — it is
-    // computed fresh every time from the appointment's date/time
-    // compared against the current moment, so it stays "live"
-    // (a booking automatically flips from Today to Completed once
-    // its time has passed, without anyone editing it by hand).
     // ==========================================================
 
     function getAppointmentStatus(appt) {
@@ -687,8 +1230,6 @@
       tbody.innerHTML = html;
     }
 
-    // Manual linear search across all appointment fields (no
-    // .filter(), no .indexOf() — reuses containsSubstring)
     function searchAppointments() {
       const query = document.getElementById('appointmentSearchInput').value.toLowerCase();
       let matched = [];
@@ -710,11 +1251,41 @@
       msg.className = isError ? 'msg error' : 'msg ok';
     }
 
+    // SERVICE DROPDOWN TOGGLE (Size & Fitting, Fragrance Shopping, Others)
+    function onServiceSelectChange(val) {
+      const otherWrapper = document.getElementById('otherServiceWrapper');
+      const otherInput = document.getElementById('bookServiceOther');
+      if (val === 'Other') {
+        otherWrapper.style.display = 'block';
+        otherInput.focus();
+      } else {
+        otherWrapper.style.display = 'none';
+        otherInput.value = '';
+      }
+      showBookingMsg('', false);
+    }
+
+    // RESTORED: Opens modal cleanly without crashing!
     function openBookingModal() {
       document.getElementById('bookingForm').reset();
+      document.getElementById('otherServiceWrapper').style.display = 'none';
+      document.getElementById('bookServiceOther').value = '';
+
       const now = new Date();
+      // If today is Sunday (getDay() === 0), advance default date to tomorrow (Monday)
+      if (now.getDay() === 0) {
+        now.setDate(now.getDate() + 1);
+      }
       document.getElementById('bookDate').valueAsDate = now;
-      document.getElementById('bookTime').value = padNumberWithZeros(now.getHours(), 2) + ':' + padNumberWithZeros(now.getMinutes(), 2);
+
+      // Default time: if current time is within 09:00 - 17:00, use it; otherwise default to 09:00
+      const curHour = now.getHours();
+      if (curHour < 9 || curHour >= 17) {
+        document.getElementById('bookTime').value = '09:00';
+      } else {
+        document.getElementById('bookTime').value = padNumberWithZeros(curHour, 2) + ':' + padNumberWithZeros(now.getMinutes(), 2);
+      }
+
       showBookingMsg('', false);
       document.getElementById('bookingOverlay').classList.add('open');
     }
@@ -722,6 +1293,8 @@
     function closeBookingModal() {
       document.getElementById('bookingOverlay').classList.remove('open');
       document.getElementById('bookingForm').reset();
+      document.getElementById('otherServiceWrapper').style.display = 'none';
+      document.getElementById('bookServiceOther').value = '';
       showBookingMsg('', false);
     }
 
@@ -735,35 +1308,133 @@
       }
     });
 
+    document.getElementById('bookDate').addEventListener('input', function () {
+      showBookingMsg('', false);
+    });
+
+    document.getElementById('bookTime').addEventListener('input', function () {
+      showBookingMsg('', false);
+    });
+
+    document.getElementById('bookServiceOther').addEventListener('input', function () {
+      showBookingMsg('', false);
+    });
+
+    // PROPERLY PLACED: Form submit handles clientName and logging
     document.getElementById('bookingForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const clientName = document.getElementById('bookClientName').value.trim();
-      const service = document.getElementById('bookService').value.trim();
-      const date = document.getElementById('bookDate').value;
-      const time = document.getElementById('bookTime').value;
+      const clientName = manualTrim(document.getElementById('bookClientName').value);
+      const serviceChoice = document.getElementById('bookService').value;
+      const otherServiceVal = manualTrim(document.getElementById('bookServiceOther').value);
+      const date = manualTrim(document.getElementById('bookDate').value);
+      const time = manualTrim(document.getElementById('bookTime').value);
 
-      if (!clientName || !service || !date || !time) {
-        alert('Please fill in every field (Client Name, Service, Date, and Time).');
+      if (clientName.length === 0) {
+        showBookingMsg('⚠️ Please enter Client Name.', true);
+        document.getElementById('bookClientName').focus();
+        return;
+      }
+
+      let resolvedService = '';
+      if (!serviceChoice || serviceChoice.length === 0) {
+        showBookingMsg('⚠️ Please select a Service.', true);
+        document.getElementById('bookService').focus();
+        return;
+      } else if (serviceChoice === 'Other') {
+        if (otherServiceVal.length === 0) {
+          showBookingMsg('⚠️ Please specify the other service.', true);
+          document.getElementById('bookServiceOther').focus();
+          return;
+        }
+        resolvedService = otherServiceVal;
+      } else {
+        resolvedService = serviceChoice;
+      }
+
+      if (date.length === 0) {
+        showBookingMsg('⚠️ Please choose a Date.', true);
+        document.getElementById('bookDate').focus();
+        return;
+      }
+      if (time.length === 0) {
+        showBookingMsg('⚠️ Please choose a Time.', true);
+        document.getElementById('bookTime').focus();
+        return;
+      }
+
+      // 1. SHOP OPERATING DAYS: Monday to Saturday only (0 = Sunday)
+      const dateObj = new Date(date + 'T00:00:00');
+      const dayOfWeek = dateObj.getDay();
+      if (dayOfWeek === 0) {
+        showBookingMsg('⚠️ The shop is closed on Sundays. Appointments are accepted Monday to Saturday only.', true);
+        document.getElementById('bookDate').focus();
+        return;
+      }
+
+      // 2. SHOP OPERATING HOURS: 9:00 AM (09:00) to 5:00 PM (17:00)
+      let timeColon = -1;
+      for (let i = 0; i < time.length; i++) {
+        if (time[i] === ':') {
+          timeColon = i;
+          break;
+        }
+      }
+      let hourStr = '';
+      let minStr = '';
+      if (timeColon !== -1) {
+        for (let i = 0; i < timeColon; i++) hourStr += time[i];
+        for (let i = timeColon + 1; i < time.length; i++) minStr += time[i];
+      }
+      let hourNum = parseInt(hourStr);
+      let minNum = parseInt(minStr);
+      let totalMins = hourNum * 60 + minNum;
+
+      // 09:00 AM = 540 mins, 05:00 PM (17:00) = 1020 mins
+      if (totalMins < 540 || totalMins > 1020) {
+        showBookingMsg('⚠️ The shop only accepts appointments from 9:00 AM to 5:00 PM.', true);
+        document.getElementById('bookTime').focus();
+        return;
+      }
+
+      // 3. CONFLICT CHECK: Prevent double-booking on the same Date and Time
+      let conflictAppt = null;
+      for (let i = 0; i < appointments.length; i++) {
+        if (appointments[i].date === date && appointments[i].time === time) {
+          conflictAppt = appointments[i];
+          break;
+        }
+      }
+
+      if (conflictAppt !== null) {
+        showBookingMsg(`⚠️ Slot Conflict: Time slot ${formatDisplayDateTime(date, time)} is already booked for "${conflictAppt.clientName}". Please select another time slot.`, true);
+        document.getElementById('bookTime').focus();
         return;
       }
 
       arrayPush(appointments, {
         id: nextAppointmentId,
         clientName: clientName,
-        service: service,
+        service: resolvedService,
         date: date,
         time: time
       });
       nextAppointmentId++;
 
-      // Log to Module 11 — insert at front manually (replaces .unshift())
+      // Log to Module 11 WITH 24-HOUR TIMESTAMP
       const now = new Date();
+      const datePart = extractDatePart(now.toISOString());
+      const hours24 = padNumberWithZeros(now.getHours(), 2);
+      const mins24 = padNumberWithZeros(now.getMinutes(), 2);
+      const secs24 = padNumberWithZeros(now.getSeconds(), 2);
+      const fullTimestamp = `${datePart} ${hours24}:${mins24}:${secs24}`;
+
       arrayUnshiftFront(activityLogs, {
         time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         user: "Agustin, Amos",
         action: `Booked appointment for ${clientName}`,
-        date: extractDatePart(now.toISOString()),
+        date: datePart,
+        rawTimestamp: fullTimestamp,
         isAnomaly: 0
       });
       bubbleSortLogs(document.getElementById('sortCriteria').value);
@@ -773,13 +1444,9 @@
       alert('Appointment booked for ' + clientName + '.');
     });
 
-    // Re-render every 30 seconds so a badge like "Today" flips to
-    // "Completed" on its own once the appointment time passes,
-    // without needing a page reload or manual edit. If the user is
-    // mid-search, re-run the search instead of wiping their filter.
     setInterval(function () {
       const query = document.getElementById('appointmentSearchInput').value;
-      if (query.trim() !== '') {
+      if (manualTrim(query) !== '') {
         searchAppointments();
       } else {
         renderAppointments();
@@ -787,7 +1454,7 @@
     }, 30000);
 
     // ==========================================================
-    // ALGORITHM 1: BUBBLE SORT (fully manual, already no helpers)
+    // ALGORITHM 1: BUBBLE SORT (Using rawTimestamp for exact sorting)
     // ==========================================================
     function bubbleSortLogs(criteria) {
       let n = activityLogs.length;
@@ -800,12 +1467,12 @@
             if (activityLogs[j].isAnomaly < activityLogs[j + 1].isAnomaly) {
               swapNeeded = true;
             } else if (activityLogs[j].isAnomaly === activityLogs[j + 1].isAnomaly) {
-              if (activityLogs[j].date < activityLogs[j + 1].date) swapNeeded = true;
+              if (activityLogs[j].rawTimestamp < activityLogs[j + 1].rawTimestamp) swapNeeded = true;
             }
           } else if (criteria === 'date-desc') {
-            if (activityLogs[j].date < activityLogs[j + 1].date) swapNeeded = true;
+            if (activityLogs[j].rawTimestamp < activityLogs[j + 1].rawTimestamp) swapNeeded = true;
           } else if (criteria === 'date-asc') {
-            if (activityLogs[j].date > activityLogs[j + 1].date) swapNeeded = true;
+            if (activityLogs[j].rawTimestamp > activityLogs[j + 1].rawTimestamp) swapNeeded = true;
           }
 
           if (swapNeeded) {
@@ -819,8 +1486,7 @@
     }
 
     // ==========================================================
-    // ALGORITHM 2: LINEAR SEARCH (manual substring match, manual
-    // result-array building — no .indexOf(), no .push())
+    // ALGORITHM 2: LINEAR SEARCH
     // ==========================================================
     function linearSearchLogs() {
       const query = document.getElementById('logSearchInput').value.toLowerCase();
@@ -836,7 +1502,10 @@
       renderLogsTable(matched);
     }
 
+    let currentLogsView = activityLogs;
+
     function renderLogsTable(list) {
+      currentLogsView = list || activityLogs;
       const tbody = document.getElementById('log-rows');
       if (list.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:16px;">No logs found.</td></tr>`;
@@ -859,15 +1528,368 @@
       tbody.innerHTML = html;
     }
 
-    // RECORD TRANSACTION (manual customer insert, manual log insert-at-front)
-    function recordTransaction() {
-      if (cart.length === 0) return alert('Cart is empty!');
-      const name = document.getElementById('custName').value.trim();
-      const contact = document.getElementById('custContact').value.trim();
-      const address = document.getElementById('custAddress').value.trim();
-      if (!name || !contact) return alert('Please enter Customer Name & Number');
+    // ==========================================================
+    // EXPORT AUDIT LOG TO PDF
+    // ==========================================================
+    function exportAuditLogPDF() {
+      const logsToPrint = currentLogsView || activityLogs;
+      if (logsToPrint.length === 0) {
+        alert('No activity logs found to export!');
+        return;
+      }
 
-      // LINEAR SEARCH TO CHECK IF CUSTOMER IS NEW
+      let totalCount = logsToPrint.length;
+      let anomalyCount = 0;
+      let normalCount = 0;
+      for (let i = 0; i < logsToPrint.length; i++) {
+        if (logsToPrint[i].isAnomaly === 1) {
+          anomalyCount++;
+        } else {
+          normalCount++;
+        }
+      }
+
+      const now = new Date();
+      const generatedDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const generatedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const reportId = `AUD-${now.getFullYear()}${padNumberWithZeros(now.getMonth() + 1, 2)}${padNumberWithZeros(now.getDate(), 2)}-${padNumberWithZeros(now.getHours(), 2)}${padNumberWithZeros(now.getMinutes(), 2)}`;
+
+      let tableRowsHtml = '';
+      for (let i = 0; i < logsToPrint.length; i++) {
+        const item = logsToPrint[i];
+        const isAnom = item.isAnomaly === 1;
+        const rowBg = isAnom ? 'background-color: #fff1f2;' : (i % 2 === 1 ? 'background-color: #f8fafc;' : 'background-color: #ffffff;');
+        const badgeHtml = isAnom
+          ? '<span style="background:#fee2e2; color:#b91c1c; padding:3px 8px; border-radius:4px; font-weight:700; font-size:11px; display:inline-block; border:1px solid #fca5a5;">ANOMALY</span>'
+          : '<span style="background:#dcfce7; color:#15803d; padding:3px 8px; border-radius:4px; font-weight:600; font-size:11px; display:inline-block; border:1px solid #bbf7d0;">Normal</span>';
+
+        tableRowsHtml += `
+          <tr style="${rowBg} border-bottom: 1px solid #e2e8f0;">
+            <td style="padding: 9px 12px; font-size: 11px; color: #475569; text-align: center;">${i + 1}</td>
+            <td style="padding: 9px 12px; font-size: 12px; font-weight: 600; color: #1e293b; white-space: nowrap;">${item.time}</td>
+            <td style="padding: 9px 12px; font-size: 12px; color: #475569; white-space: nowrap;">${item.date}</td>
+            <td style="padding: 9px 12px; font-size: 12px; font-weight: 600; color: #0f172a;">${item.user}</td>
+            <td style="padding: 9px 12px; font-size: 12px; color: #1e293b;">${item.action}</td>
+            <td style="padding: 9px 12px; text-align: center;">${badgeHtml}</td>
+          </tr>
+        `;
+      }
+
+      const reportHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>System Activity Audit Report - Love Luxe by EA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: #525659; color: #1e293b; padding: 20px 0; }
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 40px 44px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      border-radius: 4px;
+    }
+    .action-bar {
+      max-width: 900px;
+      margin: 0 auto 16px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      background: #111;
+      border-radius: 6px;
+      color: #fff;
+    }
+    .action-bar button {
+      background: #c5a059;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .action-bar button:hover { background: #ac8740; }
+    .action-bar .btn-close {
+      background: #334155;
+      margin-left: 8px;
+    }
+    .action-bar .btn-close:hover { background: #475569; }
+
+    .brand-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #c5a059;
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+    }
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      color: #c5a059;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+    .brand-sub {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .report-badge {
+      text-align: right;
+    }
+    .report-badge h2 {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #111;
+      font-weight: 700;
+    }
+    .report-meta {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.6;
+      margin-top: 4px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .summary-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #f8fafc;
+    }
+    .summary-card .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .summary-card .val {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 10px 12px;
+      border-bottom: 2px solid #cbd5e1;
+      text-align: left;
+    }
+
+    .audit-footer {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 18px;
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 11px;
+      color: #64748b;
+    }
+    .signature-box {
+      text-align: center;
+      width: 200px;
+    }
+    .signature-line {
+      border-bottom: 1px solid #0f172a;
+      margin-bottom: 6px;
+      height: 36px;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .action-bar { display: none !important; }
+      .page-container {
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 12mm;
+      }
+      tr { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="action-bar">
+    <div style="font-size: 13px; font-weight: 600;">📑 PDF Preview &bull; System Activity Audit Report</div>
+    <div>
+      <button onclick="window.print()">🖨️ Save as PDF / Print</button>
+      <button class="btn-close" onclick="window.close()">✖ Close</button>
+    </div>
+  </div>
+
+  <div class="page-container">
+    <div class="brand-header">
+      <div>
+        <div class="brand-title">LOVE LUXE</div>
+        <div class="brand-sub">by EA &bull; Est. 2024 &bull; Luxury Boutique Management</div>
+      </div>
+      <div class="report-badge">
+        <h2>System Activity Audit Report</h2>
+        <div class="report-meta">
+          <div><strong>Doc ID:</strong> ${reportId}</div>
+          <div><strong>Generated:</strong> ${generatedDate}, ${generatedTime}</div>
+          <div><strong>Auditor:</strong> Amos Agustin (Lead Admin)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="label">Total Audited Events</div>
+        <div class="val">${totalCount}</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Normal Operations</div>
+        <div class="val" style="color: #15803d;">${normalCount}</div>
+      </div>
+      <div class="summary-card" style="${anomalyCount > 0 ? 'background:#fff1f2; border-color:#fca5a5;' : ''}">
+        <div class="label">Anomalies Detected</div>
+        <div class="val" style="color: ${anomalyCount > 0 ? '#b91c1c' : '#0f172a'};">${anomalyCount}</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 35px; text-align: center;">#</th>
+          <th style="width: 85px;">Time</th>
+          <th style="width: 95px;">Date</th>
+          <th style="width: 130px;">User</th>
+          <th>Action Performed</th>
+          <th style="width: 95px; text-align: center;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${tableRowsHtml}
+      </tbody>
+    </table>
+
+    <div class="audit-footer">
+      <div>
+        <div><strong>Love Luxe by EA Portal &bull; System Activity Audit Trail</strong></div>
+        <div style="font-size: 10px; margin-top: 4px; max-width: 480px;">
+          Confidential document generated for internal compliance and system security auditing. 
+          All timestamps are synchronized with server audit logs.
+        </div>
+      </div>
+      <div class="signature-box">
+        <div class="signature-line"></div>
+        <strong>Amos Agustin</strong>
+        <div style="font-size: 10px; color: #64748b;">Lead Administrator</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function() {
+      setTimeout(function() {
+        window.print();
+      }, 350);
+    };
+  <\/script>
+</body>
+</html>
+      `;
+
+      const printWin = window.open('', '_blank');
+      if (!printWin) {
+        alert('Popup was blocked by your browser! Please allow popups for this page to export the PDF.');
+        return;
+      }
+      printWin.document.open();
+      printWin.document.write(reportHtml);
+      printWin.document.close();
+    }
+
+    // ==========================================================
+    // RECORD TRANSACTION (Properly reads custDate + builds rawTimestamp)
+    // ==========================================================
+    function recordTransaction() {
+      if (cart.length === 0) {
+        alert('⚠️ Cart is empty! Please select at least one item from the catalog.');
+        return;
+      }
+
+      const nameInput = document.getElementById('custName');
+      const contactInput = document.getElementById('custContact');
+      const addressInput = document.getElementById('custAddress');
+      const dateInput = document.getElementById('custDate');
+
+      const name = manualTrim(nameInput.value);
+      const contact = manualTrim(contactInput.value);
+      const address = manualTrim(addressInput.value);
+      const selectedDate = manualTrim(dateInput.value);
+
+      if (name.length === 0) {
+        alert('⚠️ Please enter Customer Name.');
+        nameInput.focus();
+        return;
+      }
+
+      if (contact.length === 0) {
+        alert('⚠️ Please enter Customer Number.');
+        contactInput.focus();
+        return;
+      }
+
+      if (!isValidPhilippineMobile(contact)) {
+        alert('⚠️ Customer Number must be a valid 10-digit Philippine mobile number starting with 9 (e.g. 9123456789).');
+        contactInput.focus();
+        return;
+      }
+
+      if (address.length === 0) {
+        alert('⚠️ Please enter Customer Complete Address.');
+        addressInput.focus();
+        return;
+      }
+
+      if (selectedDate.length === 0) {
+        alert('⚠️ Please select a Transaction Date.');
+        dateInput.focus();
+        return;
+      }
+
+      // 1. DATE FORMATTING
+      const now = new Date();
+      const isoDate = selectedDate;
+      const dateForReceipt = new Date(selectedDate + 'T00:00:00');
+      const formattedDate = dateForReceipt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      // 2. CHECK IF CUSTOMER IS NEW
       let customerExists = false;
       for (let i = 0; i < customers.length; i++) {
         if (customers[i].name.toLowerCase() === name.toLowerCase()) {
@@ -884,15 +1906,12 @@
       }
 
       const trnCode = `TRN-${padNumberWithZeros(trnCounter, 3)}`;
-      const now = new Date();
-      const formattedDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-      const isoDate = extractDatePart(now.toISOString());
 
-      // Populate Receipt
+      // 3. POPULATE RECEIPT
       document.getElementById('rTrnNo').innerText = trnCode;
       document.getElementById('rDate').innerText = formattedDate;
       document.getElementById('rName').innerText = name;
-      document.getElementById('rContact').innerText = contact;
+      document.getElementById('rContact').innerText = '+63 ' + contact;
       document.getElementById('rAddress').innerText = address || 'N/A';
       document.getElementById('rPayment').innerText = document.getElementById('custPayment').value;
 
@@ -910,12 +1929,19 @@
       rec.style.display = 'block';
       rec.scrollIntoView({ behavior: 'smooth' });
 
-      // Log to Module 11 — insert at front manually (replaces .unshift())
+      // 4. BUILD 24-HOUR TIMESTAMP FOR ACCURATE BUBBLE SORT
+      const hours24 = padNumberWithZeros(now.getHours(), 2);
+      const mins24 = padNumberWithZeros(now.getMinutes(), 2);
+      const secs24 = padNumberWithZeros(now.getSeconds(), 2);
+      const fullTimestamp = `${isoDate} ${hours24}:${mins24}:${secs24}`;
+
+      // Insert at front
       arrayUnshiftFront(activityLogs, {
         time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         user: "Agustin, Amos",
         action: `Processed ${trnCode} for ${name} (₱${sum.toLocaleString()})`,
         date: isoDate,
+        rawTimestamp: fullTimestamp,
         isAnomaly: 0
       });
 
@@ -926,8 +1952,6 @@
       renderCart();
     }
 
-    // Prints just the receipt (the @media print rules hide
-    // everything else on the page, including this button itself)
     function printReceipt() {
       window.print();
     }
@@ -936,9 +1960,12 @@
     renderCustomerDropdown();
     if (customers.length > 0) {
       onSelectCustomer(0);
+    } else {
+      handleContactInput(document.getElementById('custContact'));
     }
     bubbleSortLogs('anomalies');
     renderAppointments();
   </script>
 </body>
+
 </html>
