@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Love Luxe by EA - Admin Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
@@ -18,7 +18,8 @@
       --brand-gold: #c5a059;
       --border-color: #e2e8f0;
       --danger: #ef4444;
-      --sidebar-width: 260px;
+      --danger-bg: #fee2e2;
+      --sidebar-width: 250px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -26,40 +27,40 @@
 
     /* SIDEBAR */
     aside { width: var(--sidebar-width); background: var(--brand-black); color: #fff; display: flex; flex-direction: column; flex-shrink: 0; }
-    .brand-header { padding: 24px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .brand-header { padding: 22px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .brand-title { font-family: 'Cinzel', serif; font-size: 1.25rem; letter-spacing: 2px; color: var(--brand-gold); }
-    .brand-sub { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: #888; margin-top: 4px; }
-    
+    .brand-sub { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 2px; color: #888; margin-top: 4px; }
+
     .nav-list { list-style: none; padding: 16px 12px; overflow-y: auto; flex-grow: 1; }
-    .nav-section-label { font-size: 0.7rem; text-transform: uppercase; color: #666; letter-spacing: 1px; padding: 12px 12px 6px; font-weight: 600; }
+    .nav-section-label { font-size: 0.68rem; text-transform: uppercase; color: #666; letter-spacing: 1px; padding: 12px 12px 6px; font-weight: 600; }
     .nav-item { display: flex; align-items: center; padding: 10px 14px; margin-bottom: 4px; border-radius: 8px; color: #a0aec0; cursor: pointer; font-size: 0.88rem; font-weight: 500; transition: all 0.2s; }
     .nav-item:hover { color: #fff; background: rgba(197, 160, 89, 0.12); }
     .nav-item.active { color: #fff; background: var(--brand-gold); font-weight: 600; }
 
-    /* MAIN LAYOUT */
+    /* MAIN CONTENT */
     .app-main { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
     header { height: 70px; background: #fff; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
-    .page-title { font-size: 1.3rem; font-weight: 700; }
-    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--brand-gold); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-    .content-area { flex-grow: 1; padding: 32px; overflow-y: auto; scroll-behavior: smooth; }
+    .page-title { font-size: 1.25rem; font-weight: 700; }
+    .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--brand-gold); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .content-area { flex-grow: 1; padding: 28px 32px; overflow-y: auto; scroll-behavior: smooth; }
 
     .view-panel { display: none; }
     .view-panel.active-view { display: block; }
 
-    .card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px; }
-    .stat-card { background: #fff; border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; }
-    .stat-card .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
-    .stat-card .value { font-size: 1.6rem; font-weight: 700; margin-top: 6px; }
+    .card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); padding: 22px; margin-bottom: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-bottom: 24px; }
+    .stat-card { background: #fff; border: 1px solid var(--border-color); padding: 18px; border-radius: 12px; }
+    .stat-card .label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+    .stat-card .value { font-size: 1.5rem; font-weight: 700; margin-top: 6px; }
 
     /* POS GRID */
     .pos-grid { display: grid; grid-template-columns: 1.15fr 1.25fr; gap: 24px; }
-    .category-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-    .cat-btn { background: #fff; border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .category-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .cat-btn { background: #fff; border: 1px solid var(--border-color); padding: 7px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
     .cat-btn:hover { border-color: var(--brand-gold); color: var(--brand-gold); }
     .cat-btn.active { background: var(--brand-gold); color: #fff; border-color: var(--brand-gold); }
 
-    .item-catalog { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 14px; max-height: 480px; overflow-y: auto; min-height: 180px; }
+    .item-catalog { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; max-height: 480px; overflow-y: auto; min-height: 180px; }
     .product-box { border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; text-align: center; cursor: pointer; background: #fff; transition: 0.2s; }
     .product-box:hover { border-color: var(--brand-gold); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(197, 160, 89, 0.15); }
 
@@ -83,14 +84,70 @@
     .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; }
     .badge-success { background: #dcfce7; color: #166534; }
     .badge-gold { background: #f7edd7; color: #855f13; }
+    .badge-danger { background: var(--danger-bg); color: var(--danger); font-weight: 700; }
+
+    .anomaly-row { background-color: #fff5f5; }
 
     /* RECEIPT */
     #receipt-section { display: none; margin-top: 24px; margin-bottom: 30px; }
     .receipt-paper { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 36px 40px; max-width: 580px; margin: 0 auto; box-shadow: 0 4px 14px rgba(0,0,0,0.04); }
     .dotted-line { border: none; border-top: 1.5px dashed #333; margin: 12px 0 16px; }
-    .sec-head { font-size: 0.85rem; font-weight: 700; margin: 16px 0 6px; text-transform: uppercase; }
+    .sec-head { font-size: 0.82rem; font-weight: 700; margin: 16px 0 6px; text-transform: uppercase; }
     .rec-table th { background: transparent; border-bottom: 1px dashed #333; color: #000; padding: 6px 0; }
     .rec-table td { border: none; padding: 6px 0; font-size: 0.88rem; }
+
+    /* ---- BOOKING MODAL ---- */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(17, 17, 17, 0.55);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 16px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .modal-actions button { margin-top: 0; }
+    .btn-secondary { background: #fff; color: var(--text-main); border: 1px solid var(--border-color) !important; }
+    .btn-secondary:hover { background: #f1f1f1; }
+    .msg { margin-top: 8px; font-size: 0.82rem; min-height: 16px; }
+    .msg.error { color: var(--danger); }
+    .msg.ok { color: #166534; }
+    .badge-upcoming { background: var(--badge-gold-bg, #f7edd7); color: #855f13; }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      .pos-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .card { overflow-x: auto; }
+    }
+
+    /* ---- PRINT (receipt only) ---- */
+    @media print {
+      body * { visibility: hidden; }
+      #receipt-section, #receipt-section * { visibility: visible; }
+      #receipt-section {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        margin: 0;
+      }
+      .receipt-paper { box-shadow: none; border: none; max-width: 100%; }
+      #printReceiptBtn { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -105,7 +162,7 @@
       <li class="nav-section-label">General</li>
       <li class="nav-item active" onclick="switchTab('dashboard', this)"><span>Dashboard</span></li>
       <li class="nav-section-label">Amos's Modules</li>
-      <li class="nav-item" onclick="switchTab('orders', this)"><span>New Order / POS</span></li>
+      <li class="nav-item" onclick="switchTab('orders', this)"><span>Transaction / POS</span></li>
       <li class="nav-item" onclick="switchTab('appointments', this)"><span>Appointments</span></li>
       <li class="nav-item" onclick="switchTab('logs', this)"><span>Activity Logs</span></li>
     </ul>
@@ -118,6 +175,7 @@
       <div style="display: flex; align-items: center; gap: 12px;">
         <div style="text-align: right;">
           <div style="font-size: 0.85rem; font-weight: 600;">Amos Agustin</div>
+          <div style="font-size: 0.72rem; color: var(--text-muted);">Lead Admin</div>
         </div>
         <div class="avatar">A</div>
       </div>
@@ -135,13 +193,14 @@
         </div>
         <div class="card">
           <h3 style="margin-bottom: 8px;">System Active</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Welcome to the Love Luxe by EA! Use the sidebar navigation on the left to review different module interfaces.</p>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">Welcome to the Love Luxe by EA portal. All modules synchronized.</p>
         </div>
       </section>
 
       <!-- 2. ORDER / POS -->
       <section id="view-orders" class="view-panel">
         <div class="pos-grid">
+
           <!-- Catalog -->
           <div class="card">
             <h3 style="margin-bottom: 14px;">Select Products</h3>
@@ -160,24 +219,45 @@
             </div>
           </div>
 
-          <!-- Inputs & Cart -->
+          <!-- Checkout & Customer Information -->
           <div class="card">
             <h3 style="margin-bottom: 14px;">Transaction Information</h3>
-            <div class="form-row">
-              <div class="form-group"><label>Customer Name *</label><input type="text" id="custName" class="form-control" value="Amos Agustin"></div>
-              <div class="form-group"><label>Customer Number *</label><input type="text" id="custContact" class="form-control" value="0912 678 4098"></div>
+
+            <!-- CUSTOMER DROPDOWN SELECTOR -->
+            <div class="form-group" style="background: #fbf9f4; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <label style="color: var(--brand-gold);">👤 Choose Saved Customer Profile:</label>
+              <select id="customerDropdown" class="form-control" onchange="onSelectCustomer(this.value)">
+                <!-- Dynamically populated from customers array -->
+              </select>
             </div>
-            <div class="form-group"><label>Address</label><input type="text" id="custAddress" class="form-control" value="Sta. Barbara, Baliwag City, Bulacan"></div>
+
+            <!-- Auto-filled / Editable Inputs -->
             <div class="form-row">
               <div class="form-group">
-                <label>Payment Method</label>
-                <select id="custPayment" class="form-control">
-                  <option value="Cash">Cash</option><option value="GCash">GCash</option>
-                  <option value="Bank Transfer">Bank Transfer</option><option value="Card">Card</option>
-                </select>
+                <label>Customer Name *</label>
+                <input type="text" id="custName" class="form-control" placeholder="Full name">
               </div>
-              <div class="form-group"><label>Reference No. (Optional)</label><input type="text" id="custRef" class="form-control" placeholder="e.g. TRN-001"></div>
+              <div class="form-group">
+                <label>Customer Number *</label>
+                <input type="text" id="custContact" class="form-control" placeholder="Phone number">
+              </div>
             </div>
+
+            <div class="form-group">
+              <label>Address</label>
+              <input type="text" id="custAddress" class="form-control" placeholder="Complete Address">
+            </div>
+
+            <div class="form-group">
+              <label>Payment Method</label>
+              <select id="custPayment" class="form-control">
+                <option value="Cash">Cash</option>
+                <option value="GCash">GCash</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Card">Card</option>
+              </select>
+            </div>
+
             <div class="form-group"><label>Date</label><input type="date" id="custDate" class="form-control"></div>
 
             <h4 style="margin: 14px 0 8px; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">Selected Items</h4>
@@ -196,7 +276,10 @@
         <!-- RECEIPT -->
         <div id="receipt-section">
           <div class="receipt-paper">
-            <div style="font-size:0.85rem; color:#666; margin-bottom:6px;">Output:</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <div style="font-size:0.85rem; color:#666;">Output:</div>
+              <button type="button" id="printReceiptBtn" class="btn" style="padding:6px 14px; font-size:0.78rem;" onclick="printReceipt()">🖨️ Print Receipt</button>
+            </div>
             <div style="text-align:center; font-size:1.15rem; font-weight:600;">Transaction Receipt</div>
             <hr class="dotted-line" />
             <div style="font-size:0.88rem; line-height:1.5;">
@@ -228,30 +311,82 @@
       <!-- 3. APPOINTMENTS -->
       <section id="view-appointments" class="view-panel">
         <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <h3>Fitting & VIP Appointments</h3>
-            <button class="btn" onclick="alert('Appointment modal')">+ New Booking</button>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+            <h3>Fitting & Appointments</h3>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <input type="text" id="appointmentSearchInput" class="form-control" style="width:230px;" placeholder="🔍 Search appointments..." onkeyup="searchAppointments()">
+              <button class="btn" onclick="openBookingModal()">+ New Booking</button>
+            </div>
           </div>
           <table>
             <thead><tr><th>Client Name</th><th>Service/Type</th><th>Date & Time</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td><strong>Rham Agustin</strong></td><td>Fit & Styling</td><td>Tomorrow @ 2:00 PM</td><td><span class="badge badge-gold">Upcoming</span></td></tr>
-              <tr><td><strong>Amos Agustin</strong></td><td>Private Fragrance Consultation</td><td>Oct 28 @ 4:30 PM</td><td><span class="badge badge-success">Confirmed</span></td></tr>
-            </tbody>
+            <tbody id="appointments-rows"></tbody>
           </table>
         </div>
       </section>
 
+      <!-- BOOKING MODAL -->
+      <div class="modal-overlay" id="bookingOverlay">
+        <div class="modal">
+          <h2>New Appointment</h2>
+          <form id="bookingForm">
+            <div class="form-group">
+              <label>Client Name *</label>
+              <input type="text" id="bookClientName" class="form-control" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+              <label>Service / Type *</label>
+              <input type="text" id="bookService" class="form-control" placeholder="e.g. Fit & Styling" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Date *</label>
+                <input type="date" id="bookDate" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label>Time *</label>
+                <input type="time" id="bookTime" class="form-control" required>
+              </div>
+            </div>
+            <div class="msg" id="bookingMsg"></div>
+            <div class="modal-actions">
+              <button type="button" class="btn-secondary" id="bookingCancelBtn">Cancel</button>
+              <button type="submit" class="btn-gold">Save Booking</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <!-- 4. ACTIVITY LOG -->
       <section id="view-logs" class="view-panel">
         <div class="card">
-          <h3 style="margin-bottom:16px;">System Activity Audit</h3>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+            <div>
+              <h3 style="font-size:1.15rem;">System Activity Audit</h3>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center;">
+              <input type="text" id="logSearchInput" class="form-control" style="width:230px;" placeholder="🔍 Search logs..." onkeyup="linearSearchLogs()">
+
+              <select id="sortCriteria" class="form-control" style="width:190px;" onchange="bubbleSortLogs(this.value)">
+                <option value="anomalies"> ❗ANOMALY</option>
+                <option value="date-desc"> Date (Newest First)</option>
+                <option value="date-asc"> Date (Oldest First)</option>
+              </select>
+            </div>
+          </div>
+
           <table>
-            <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Date</th></tr></thead>
-            <tbody id="log-rows">
-              <tr><td>10:45 AM</td><td>Agustin, Amos</td><td>Logged in to system</td><td>Sept 15, 2026</td></tr>
-              <tr><td>09:30 AM</td><td>Vasallo, Patrick</td><td>Updated stock for "Luxe Handbag"</td><td>Sept 15, 2026</td></tr>
-            </tbody>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>User</th>
+                <th>Action</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="log-rows"></tbody>
           </table>
         </div>
       </section>
@@ -260,7 +395,85 @@
   </main>
 
   <script>
-    // CLEAN PRODUCT DATA LIST (Saves over 150 lines of HTML!)
+    // ==========================================================
+    // MANUAL ARRAY HELPERS
+    // No .push, .splice, .pop, .shift, .unshift, .forEach, .find,
+    // .filter, .map, .indexOf, .sort anywhere in this file.
+    // Every array operation below is done by hand with plain loops
+    // and index assignment, per the "strictly no helpers" rule.
+    // ==========================================================
+
+    // Adds one item to the end of an array (replaces .push)
+    function arrayPush(arr, item) {
+      arr[arr.length] = item;
+    }
+
+    // Removes the item at "index" and shifts everything after it
+    // back by one slot, then shrinks the array (replaces .splice)
+    function arrayRemoveAt(arr, index) {
+      for (let i = index; i < arr.length - 1; i++) {
+        arr[i] = arr[i + 1];
+      }
+      arr.length = arr.length - 1;
+    }
+
+    // Inserts one item at the very front, shifting every existing
+    // element up by one slot first (replaces .unshift)
+    function arrayUnshiftFront(arr, item) {
+      for (let i = arr.length; i > 0; i--) {
+        arr[i] = arr[i - 1];
+      }
+      arr[0] = item;
+    }
+
+    // Manual substring search (replaces String.indexOf as a
+    // "search helper" — checks every possible starting position
+    // by hand, character by character)
+    function containsSubstring(text, query) {
+      if (query.length === 0) return true;
+      for (let i = 0; i <= text.length - query.length; i++) {
+        let isMatch = true;
+        for (let j = 0; j < query.length; j++) {
+          if (text[i + j] !== query[j]) {
+            isMatch = false;
+            break;
+          }
+        }
+        if (isMatch) return true;
+      }
+      return false;
+    }
+
+    // Manual replacement for .split('T')[0] — walks the ISO string
+    // character by character and stops building the result the
+    // moment it hits "T"
+    function extractDatePart(isoString) {
+      let result = '';
+      for (let i = 0; i < isoString.length; i++) {
+        if (isoString[i] === 'T') break;
+        result += isoString[i];
+      }
+      return result;
+    }
+
+    // Manual replacement for .padStart(targetLength, '0') — builds
+    // the zero-padded string one character at a time instead of
+    // calling the built-in
+    function padNumberWithZeros(num, targetLength) {
+      let str = '' + num;
+      while (str.length < targetLength) {
+        str = '0' + str;
+      }
+      return str;
+    }
+
+    // ==========================================================
+    // DATA (in-memory arrays only — no localStorage, no server.
+    // Reloading the page resets everything back to this seed data.)
+    // ==========================================================
+
+    let customers = [];
+
     const products = [
       { name: "Luxe Handbag", price: 4500, category: "bag" },
       { name: "Velvet Clutch", price: 2100, category: "bag" },
@@ -275,118 +488,457 @@
       { name: "Velvet Body Cream", price: 750, category: "bodycare" }
     ];
 
+    let activityLogs = [
+      { time: "11:20 AM", user: "Unknown", action: "FAILED LOGIN ATTEMPT (3x)", date: "2024-10-24", isAnomaly: 1 },
+      { time: "10:45 AM", user: "Agustin, Amos", action: "Logged in to system", date: "2024-10-24", isAnomaly: 0 },
+      { time: "09:30 AM", user: "Vasallo, Patrick", action: "Updated stock for Luxe Handbag", date: "2024-10-23", isAnomaly: 0 },
+      { time: "03:15 PM", user: "Staff #4", action: "MANUAL STOCK OVERRIDE: -15 ITEMS", date: "2024-10-22", isAnomaly: 1 }
+    ];
+
+    // No seed appointments — the table starts empty until a booking
+    // is made through the "+ New Booking" modal.
+    let appointments = [];
+    let nextAppointmentId = 1;
+
     let cart = [];
     let trnCounter = 1;
     document.getElementById('custDate').valueAsDate = new Date();
 
-    // TAB SWITCHER
+    // RENDER CUSTOMER DROPDOWN
+    function renderCustomerDropdown() {
+      const select = document.getElementById('customerDropdown');
+      let html = '<option value="new">➕ Add New Customer</option>';
+      for (let i = 0; i < customers.length; i++) {
+        html += `<option value="${i}">${customers[i].name}</option>`;
+      }
+      select.innerHTML = html;
+    }
+
+    // ON SELECTING CUSTOMER FROM DROPDOWN
+    function onSelectCustomer(val) {
+      if (val === 'new') {
+        document.getElementById('custName').value = '';
+        document.getElementById('custContact').value = '';
+        document.getElementById('custAddress').value = '';
+        document.getElementById('custName').focus();
+      } else {
+        const idx = parseInt(val);
+        const c = customers[idx];
+        document.getElementById('custName').value = c.name;
+        document.getElementById('custContact').value = c.contact;
+        document.getElementById('custAddress').value = c.address;
+      }
+    }
+
+    // TAB SWITCHER (manual loop instead of .forEach on the NodeLists)
     function switchTab(viewId, el) {
-      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      const navItems = document.querySelectorAll('.nav-item');
+      for (let i = 0; i < navItems.length; i++) {
+        navItems[i].classList.remove('active');
+      }
       el.classList.add('active');
-      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active-view'));
+
+      const panels = document.querySelectorAll('.view-panel');
+      for (let i = 0; i < panels.length; i++) {
+        panels[i].classList.remove('active-view');
+      }
       document.getElementById(`view-${viewId}`).classList.add('active-view');
       document.getElementById('top-title').innerText = el.querySelector('span').innerText;
     }
 
-    // CATEGORY SELECTION (Dynamically generates items cleanly)
+    // CATEGORY SELECTION (manual loop, no .filter())
     function selectCategory(cat, btn) {
-      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      const catButtons = document.querySelectorAll('.cat-btn');
+      for (let i = 0; i < catButtons.length; i++) {
+        catButtons[i].classList.remove('active');
+      }
       btn.classList.add('active');
+
       const catalog = document.getElementById('catalogGrid');
-      const filtered = products.filter(p => p.category === cat);
-      
-      catalog.innerHTML = filtered.map(p => `
-        <div class="product-box" onclick="addToOrder('${p.name}', ${p.price})">
-          <strong>${p.name}</strong>
-          <p style="color:var(--brand-gold); font-size:0.85rem; font-weight:600; margin-top:4px;">₱${p.price.toLocaleString()}</p>
-        </div>
-      `).join('');
+
+      let filtered = [];
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].category === cat) {
+          arrayPush(filtered, products[i]);
+        }
+      }
+
+      let html = '';
+      for (let i = 0; i < filtered.length; i++) {
+        html += `
+          <div class="product-box" onclick="addToOrder('${filtered[i].name}', ${filtered[i].price})">
+            <strong>${filtered[i].name}</strong>
+            <p style="color:var(--brand-gold); font-size:0.85rem; font-weight:600; margin-top:4px;">₱${filtered[i].price.toLocaleString()}</p>
+          </div>
+        `;
+      }
+      catalog.innerHTML = html;
     }
 
-    // CART ACTIONS
+    // CART LOGIC (manual loop instead of .find(), manual insert instead of .push())
     function addToOrder(name, price) {
-      const item = cart.find(i => i.name === name);
-      if (item) item.qty++; else cart.push({ name, price, qty: 1 });
+      let foundIndex = -1;
+      for (let i = 0; i < cart.length; i++) {
+        if (cart[i].name === name) {
+          foundIndex = i;
+          break;
+        }
+      }
+
+      if (foundIndex !== -1) {
+        cart[foundIndex].qty++;
+      } else {
+        arrayPush(cart, { name: name, price: price, qty: 1 });
+      }
       renderCart();
     }
 
     function updateQty(idx, delta) {
       cart[idx].qty += delta;
-      if (cart[idx].qty <= 0) cart.splice(idx, 1);
+      if (cart[idx].qty <= 0) {
+        arrayRemoveAt(cart, idx);
+      }
       renderCart();
     }
 
     function renderCart() {
       const tbody = document.getElementById('cart-rows');
-      if (!cart.length) {
+      if (cart.length === 0) {
         tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">No items selected</td></tr>`;
         document.getElementById('cart-total').innerText = '₱0.00';
         return;
       }
       let total = 0;
-      tbody.innerHTML = cart.map((i, idx) => {
-        const line = i.price * i.qty;
+      let html = '';
+      for (let i = 0; i < cart.length; i++) {
+        const line = cart[i].price * cart[i].qty;
         total += line;
-        return `
+        html += `
           <tr>
-            <td><strong>${i.name}</strong><br><small style="color:var(--text-muted)">₱${i.price.toLocaleString()}</small></td>
+            <td><strong>${cart[i].name}</strong><br><small style="color:var(--text-muted)">₱${cart[i].price.toLocaleString()}</small></td>
             <td style="text-align:center;">
-              <button class="qty-btn" onclick="updateQty(${idx}, -1)">-</button>
-              <span style="margin:0 4px; font-weight:600;">${i.qty}</span>
-              <button class="qty-btn" onclick="updateQty(${idx}, 1)">+</button>
+              <button class="qty-btn" onclick="updateQty(${i}, -1)">-</button>
+              <span style="margin:0 4px; font-weight:600;">${cart[i].qty}</span>
+              <button class="qty-btn" onclick="updateQty(${i}, 1)">+</button>
             </td>
             <td style="text-align:right; font-weight:600;">₱${line.toLocaleString()}</td>
           </tr>`;
-      }).join('');
+      }
+      tbody.innerHTML = html;
       document.getElementById('cart-total').innerText = `₱${total.toLocaleString()}.00`;
     }
 
-    // CHECKOUT & RECEIPT
+    // ==========================================================
+    // MODULE 12: APPOINTMENTS
+    // Status is never stored on the appointment object — it is
+    // computed fresh every time from the appointment's date/time
+    // compared against the current moment, so it stays "live"
+    // (a booking automatically flips from Today to Completed once
+    // its time has passed, without anyone editing it by hand).
+    // ==========================================================
+
+    function getAppointmentStatus(appt) {
+      const now = new Date();
+      const apptDateTime = new Date(appt.date + 'T' + appt.time);
+
+      const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const apptDateOnly = new Date(apptDateTime.getFullYear(), apptDateTime.getMonth(), apptDateTime.getDate());
+
+      if (apptDateOnly.getTime() === nowDateOnly.getTime()) {
+        if (apptDateTime.getTime() < now.getTime()) {
+          return { label: 'Completed', cssClass: 'badge-success' };
+        }
+        return { label: 'Today', cssClass: 'badge-danger' };
+      } else if (apptDateTime.getTime() > now.getTime()) {
+        return { label: 'Upcoming', cssClass: 'badge-gold' };
+      } else {
+        return { label: 'Completed', cssClass: 'badge-success' };
+      }
+    }
+
+    function formatDisplayDateTime(dateStr, timeStr) {
+      const dt = new Date(dateStr + 'T' + timeStr);
+      const datePart = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const timePart = dt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      return `${datePart} @ ${timePart}`;
+    }
+
+    function renderAppointments(list) {
+      const tbody = document.getElementById('appointments-rows');
+      const source = list || appointments;
+
+      if (source.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:20px;">No appointments found.</td></tr>`;
+        return;
+      }
+
+      let html = '';
+      for (let i = 0; i < source.length; i++) {
+        const appt = source[i];
+        const status = getAppointmentStatus(appt);
+        html += `
+          <tr>
+            <td><strong>${appt.clientName}</strong></td>
+            <td>${appt.service}</td>
+            <td>${formatDisplayDateTime(appt.date, appt.time)}</td>
+            <td><span class="badge ${status.cssClass}">${status.label}</span></td>
+          </tr>`;
+      }
+      tbody.innerHTML = html;
+    }
+
+    // Manual linear search across all appointment fields (no
+    // .filter(), no .indexOf() — reuses containsSubstring)
+    function searchAppointments() {
+      const query = document.getElementById('appointmentSearchInput').value.toLowerCase();
+      let matched = [];
+
+      for (let i = 0; i < appointments.length; i++) {
+        const appt = appointments[i];
+        const status = getAppointmentStatus(appt);
+        const combined = (appt.clientName + " " + appt.service + " " + appt.date + " " + appt.time + " " + status.label).toLowerCase();
+        if (containsSubstring(combined, query)) {
+          arrayPush(matched, appt);
+        }
+      }
+      renderAppointments(matched);
+    }
+
+    function showBookingMsg(text, isError) {
+      const msg = document.getElementById('bookingMsg');
+      msg.textContent = text;
+      msg.className = isError ? 'msg error' : 'msg ok';
+    }
+
+    function openBookingModal() {
+      document.getElementById('bookingForm').reset();
+      const now = new Date();
+      document.getElementById('bookDate').valueAsDate = now;
+      document.getElementById('bookTime').value = padNumberWithZeros(now.getHours(), 2) + ':' + padNumberWithZeros(now.getMinutes(), 2);
+      showBookingMsg('', false);
+      document.getElementById('bookingOverlay').classList.add('open');
+    }
+
+    function closeBookingModal() {
+      document.getElementById('bookingOverlay').classList.remove('open');
+      document.getElementById('bookingForm').reset();
+      showBookingMsg('', false);
+    }
+
+    document.getElementById('bookingCancelBtn').addEventListener('click', function () {
+      closeBookingModal();
+    });
+
+    document.getElementById('bookingOverlay').addEventListener('click', function (e) {
+      if (e.target === document.getElementById('bookingOverlay')) {
+        closeBookingModal();
+      }
+    });
+
+    document.getElementById('bookingForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const clientName = document.getElementById('bookClientName').value.trim();
+      const service = document.getElementById('bookService').value.trim();
+      const date = document.getElementById('bookDate').value;
+      const time = document.getElementById('bookTime').value;
+
+      if (!clientName || !service || !date || !time) {
+        alert('Please fill in every field (Client Name, Service, Date, and Time).');
+        return;
+      }
+
+      arrayPush(appointments, {
+        id: nextAppointmentId,
+        clientName: clientName,
+        service: service,
+        date: date,
+        time: time
+      });
+      nextAppointmentId++;
+
+      // Log to Module 11 — insert at front manually (replaces .unshift())
+      const now = new Date();
+      arrayUnshiftFront(activityLogs, {
+        time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        user: "Agustin, Amos",
+        action: `Booked appointment for ${clientName}`,
+        date: extractDatePart(now.toISOString()),
+        isAnomaly: 0
+      });
+      bubbleSortLogs(document.getElementById('sortCriteria').value);
+
+      closeBookingModal();
+      renderAppointments();
+      alert('Appointment booked for ' + clientName + '.');
+    });
+
+    // Re-render every 30 seconds so a badge like "Today" flips to
+    // "Completed" on its own once the appointment time passes,
+    // without needing a page reload or manual edit. If the user is
+    // mid-search, re-run the search instead of wiping their filter.
+    setInterval(function () {
+      const query = document.getElementById('appointmentSearchInput').value;
+      if (query.trim() !== '') {
+        searchAppointments();
+      } else {
+        renderAppointments();
+      }
+    }, 30000);
+
+    // ==========================================================
+    // ALGORITHM 1: BUBBLE SORT (fully manual, already no helpers)
+    // ==========================================================
+    function bubbleSortLogs(criteria) {
+      let n = activityLogs.length;
+
+      for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+          let swapNeeded = false;
+
+          if (criteria === 'anomalies') {
+            if (activityLogs[j].isAnomaly < activityLogs[j + 1].isAnomaly) {
+              swapNeeded = true;
+            } else if (activityLogs[j].isAnomaly === activityLogs[j + 1].isAnomaly) {
+              if (activityLogs[j].date < activityLogs[j + 1].date) swapNeeded = true;
+            }
+          } else if (criteria === 'date-desc') {
+            if (activityLogs[j].date < activityLogs[j + 1].date) swapNeeded = true;
+          } else if (criteria === 'date-asc') {
+            if (activityLogs[j].date > activityLogs[j + 1].date) swapNeeded = true;
+          }
+
+          if (swapNeeded) {
+            let temp = activityLogs[j];
+            activityLogs[j] = activityLogs[j + 1];
+            activityLogs[j + 1] = temp;
+          }
+        }
+      }
+      renderLogsTable(activityLogs);
+    }
+
+    // ==========================================================
+    // ALGORITHM 2: LINEAR SEARCH (manual substring match, manual
+    // result-array building — no .indexOf(), no .push())
+    // ==========================================================
+    function linearSearchLogs() {
+      const query = document.getElementById('logSearchInput').value.toLowerCase();
+      let matched = [];
+
+      for (let i = 0; i < activityLogs.length; i++) {
+        const item = activityLogs[i];
+        const combined = (item.user + " " + item.action + " " + item.date + " " + item.time).toLowerCase();
+        if (containsSubstring(combined, query)) {
+          arrayPush(matched, item);
+        }
+      }
+      renderLogsTable(matched);
+    }
+
+    function renderLogsTable(list) {
+      const tbody = document.getElementById('log-rows');
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:16px;">No logs found.</td></tr>`;
+        return;
+      }
+      let html = '';
+      for (let i = 0; i < list.length; i++) {
+        const log = list[i];
+        const rowClass = log.isAnomaly === 1 ? 'anomaly-row' : '';
+        const badge = log.isAnomaly === 1 ? '<span class="badge badge-danger">ANOMALY</span>' : '<span class="badge badge-success">Normal</span>';
+        html += `
+          <tr class="${rowClass}">
+            <td><strong>${log.time}</strong></td>
+            <td>${log.user}</td>
+            <td>${log.action}</td>
+            <td>${badge}</td>
+            <td>${log.date}</td>
+          </tr>`;
+      }
+      tbody.innerHTML = html;
+    }
+
+    // RECORD TRANSACTION (manual customer insert, manual log insert-at-front)
     function recordTransaction() {
-      if (!cart.length) return alert('Cart is empty!');
+      if (cart.length === 0) return alert('Cart is empty!');
       const name = document.getElementById('custName').value.trim();
       const contact = document.getElementById('custContact').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
       if (!name || !contact) return alert('Please enter Customer Name & Number');
 
-      const trnCode = document.getElementById('custRef').value.trim() || `TRN-${String(trnCounter).padStart(3, '0')}`;
+      // LINEAR SEARCH TO CHECK IF CUSTOMER IS NEW
+      let customerExists = false;
+      for (let i = 0; i < customers.length; i++) {
+        if (customers[i].name.toLowerCase() === name.toLowerCase()) {
+          customerExists = true;
+          customers[i].contact = contact;
+          customers[i].address = address;
+          break;
+        }
+      }
+
+      if (!customerExists) {
+        arrayPush(customers, { name: name, contact: contact, address: address });
+        renderCustomerDropdown();
+      }
+
+      const trnCode = `TRN-${padNumberWithZeros(trnCounter, 3)}`;
       const now = new Date();
       const formattedDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-      const shortDate = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const isoDate = extractDatePart(now.toISOString());
 
       // Populate Receipt
       document.getElementById('rTrnNo').innerText = trnCode;
       document.getElementById('rDate').innerText = formattedDate;
       document.getElementById('rName').innerText = name;
       document.getElementById('rContact').innerText = contact;
-      document.getElementById('rAddress').innerText = document.getElementById('custAddress').value || 'N/A';
+      document.getElementById('rAddress').innerText = address || 'N/A';
       document.getElementById('rPayment').innerText = document.getElementById('custPayment').value;
 
       let sum = 0;
-      document.getElementById('receipt-items-body').innerHTML = cart.map(i => {
-        const line = i.price * i.qty;
+      let receiptHtml = '';
+      for (let i = 0; i < cart.length; i++) {
+        const line = cart[i].price * cart[i].qty;
         sum += line;
-        return `<tr><td>${i.name}</td><td style="text-align:center;">${i.qty}</td><td style="text-align:right;">${i.price.toFixed(2)}</td><td style="text-align:right;">${line.toFixed(2)}</td></tr>`;
-      }).join('');
-
+        receiptHtml += `<tr><td>${cart[i].name}</td><td style="text-align:center;">${cart[i].qty}</td><td style="text-align:right;">${cart[i].price.toFixed(2)}</td><td style="text-align:right;">${line.toFixed(2)}</td></tr>`;
+      }
+      document.getElementById('receipt-items-body').innerHTML = receiptHtml;
       document.getElementById('rFinalTotal').innerText = sum.toFixed(2);
+
       const rec = document.getElementById('receipt-section');
       rec.style.display = 'block';
       rec.scrollIntoView({ behavior: 'smooth' });
 
-      // Auto Log to Module 11
-      document.getElementById('log-rows').insertAdjacentHTML('afterbegin', `
-        <tr>
-          <td>${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-          <td>Agustin, Amos</td>
-          <td>Processed ${trnCode} (₱${sum.toLocaleString()})</td>
-          <td>${shortDate}</td>
-        </tr>
-      `);
+      // Log to Module 11 — insert at front manually (replaces .unshift())
+      arrayUnshiftFront(activityLogs, {
+        time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        user: "Agustin, Amos",
+        action: `Processed ${trnCode} for ${name} (₱${sum.toLocaleString()})`,
+        date: isoDate,
+        isAnomaly: 0
+      });
+
+      bubbleSortLogs(document.getElementById('sortCriteria').value);
 
       trnCounter++;
       cart = [];
       renderCart();
     }
+
+    // Prints just the receipt (the @media print rules hide
+    // everything else on the page, including this button itself)
+    function printReceipt() {
+      window.print();
+    }
+
+    // INITIAL SETUP ON PAGE LOAD
+    renderCustomerDropdown();
+    if (customers.length > 0) {
+      onSelectCustomer(0);
+    }
+    bubbleSortLogs('anomalies');
+    renderAppointments();
   </script>
 </body>
 </html>
