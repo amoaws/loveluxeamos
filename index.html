@@ -16,7 +16,7 @@
         rel="stylesheet">
 
     <!-- External Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
 </head>
 
 <body>
@@ -62,19 +62,19 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="label">Today's Sales</div>
-                        <div class="value" id="dashSales">₱0.00</div>
+                        <div class="value">₱18,450.00</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Total Orders</div>
-                        <div class="value" id="dashOrders">0</div>
+                        <div class="value">14</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Appointments Today</div>
-                        <div class="value" id="dashAppts">0 Scheduled</div>
+                        <div class="value">2 Scheduled</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Low Stock Alerts</div>
-                        <div class="value" style="color: var(--text-muted);">—</div>
+                        <div class="value" style="color: var(--danger);">2 Items</div>
                     </div>
                 </div>
                 <div class="card">
@@ -154,18 +154,21 @@
                             <input type="text" id="custAddress" class="form-control" placeholder="Complete Address">
                         </div>
 
-                        <div class="form-group">
-                            <label>Payment Method</label>
-                            <select id="custPayment" class="form-control">
-                                <option value="Cash">Cash</option>
-                                <option value="GCash">GCash</option>
-                                <option value="Bank Transfer">Bank Transfer</option>
-                                <option value="Card">Card</option>
-                            </select>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Payment Method</label>
+                                <select id="custPayment" class="form-control">
+                                    <option value="Cash">Cash</option>
+                                    <option value="GCash">GCash</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                    <option value="Card">Card</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date *</label>
+                                <input type="date" id="custDate" class="form-control">
+                            </div>
                         </div>
-
-                        <div class="form-group"><label>Date *</label><input type="date" id="custDate"
-                                class="form-control"></div>
 
                         <h4
                             style="margin: 14px 0 8px; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted);">
@@ -176,7 +179,7 @@
                                     <th>Product</th>
                                     <th style="text-align:center;">Qty</th>
                                     <th style="text-align:right;">Total</th>
-                                    <th></th>
+                                    <th style="text-align:center;">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="cart-rows">
@@ -293,7 +296,7 @@
                     </div>
                 </div>
 
-                <!-- Global Searchable Appointments Table -->
+                <!-- Global Appointments Table -->
                 <div class="card">
                     <div
                         style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
@@ -320,7 +323,6 @@
             </section>
 
             <!-- BOOKING MODAL -->
-            <!-- BOOKING MODAL (With Duration Inputs) -->
             <div class="modal-overlay" id="bookingOverlay">
                 <div class="modal">
                     <h2>New Appointment</h2>
@@ -384,7 +386,7 @@
                 </div>
             </div>
 
-            <!-- 4. ACTIVITY LOG (MODULE 11) -->
+            <!-- ================= 4. ACTIVITY LOG (MODULE 11) ================= -->
             <section id="view-logs" class="view-panel">
                 <div class="card">
                     <div
@@ -394,25 +396,36 @@
                             <small id="logPeriodIndicator" style="color:var(--brand-gold); font-weight:600;">Showing:
                                 All Records</small>
                         </div>
-                        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                            <select id="logPeriodFilter" class="form-control" style="width:160px;"
-                                onchange="refreshLogsView()">
+
+                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                            <!-- Dropdown filter -->
+                            <select id="logPeriodFilter" class="form-control" style="width:150px;"
+                                onchange="filterLogsByPeriod(this.value)">
                                 <option value="all">📅 All Time</option>
                                 <option value="daily">📅 Today (Daily)</option>
                                 <option value="weekly">📅 Past 7 Days (Weekly)</option>
                                 <option value="monthly">📅 This Month (Monthly)</option>
                             </select>
-                            <input type="text" id="logSearchInput" class="form-control" style="width:170px;"
-                                placeholder="🔍 Search logs..." onkeyup="refreshLogsView()">
-                            <select id="sortCriteria" class="form-control" style="width:150px;"
+
+                            <!-- Specific Date Filter -->
+                            <input type="date" id="logDateFilter" class="form-control" style="width:145px;"
+                                onchange="filterLogsBySpecificDate(this.value)">
+
+                            <input type="text" id="logSearchInput" class="form-control" style="width:150px;"
+                                placeholder="🔍 Search logs..." onkeyup="linearSearchLogs()">
+
+                            <select id="sortCriteria" class="form-control" style="width:140px;"
                                 onchange="bubbleSortLogs(this.value)">
                                 <option value="anomalies"> ❗ANOMALY</option>
                                 <option value="date-desc"> Date (Newest First)</option>
                                 <option value="date-asc"> Date (Oldest First)</option>
                             </select>
+
                             <button type="button" class="btn"
-                                style="background:var(--brand-gold); color:#fff; padding:8px 14px;"
-                                onclick="exportAuditLogPDF()">📄 Export PDF</button>
+                                style="background:var(--brand-gold); color:#fff; display:inline-flex; align-items:center; gap:6px; padding:8px 12px;"
+                                onclick="exportAuditLogPDF()">
+                                📄 Export PDF
+                            </button>
                         </div>
                     </div>
 
@@ -433,23 +446,37 @@
 
             <!-- ================= 5. MODULE 13: TRANSACTION HISTORY ================= -->
             <section id="view-history" class="view-panel">
+                <!-- 4 Financial KPI Cards: All-Time vs Filtered Selection -->
                 <div class="stats-grid">
+                    <!-- All-Time Revenue -->
                     <div class="stat-card">
-                        <div class="label">Overall Total Revenue (All Transactions)</div>
+                        <div class="label">Overall Total Revenue (All-Time)</div>
                         <div class="value" id="overallRevenueVal" style="color: var(--brand-gold);">₱0.00</div>
                         <small style="color: var(--text-muted); font-size: 0.75rem;">Lifetime gross sales</small>
                     </div>
+
+                    <!-- All-Time Net Profit -->
                     <div class="stat-card">
-                        <div class="label">Estimated Net Profit</div>
+                        <div class="label">Overall Net Profit (All-Time)</div>
                         <div class="value" id="overallProfitVal" style="color: #166534;">₱0.00</div>
-                        <small style="color: var(--text-muted); font-size: 0.75rem;">Estimate: 40% of gross
-                            sales</small>
+                        <small style="color: var(--text-muted); font-size: 0.75rem;">All-time 40% operating
+                            margin</small>
                     </div>
+
+                    <!-- Dynamic Filtered Revenue -->
                     <div class="stat-card">
                         <div class="label" id="filteredRevenueLabel">Filtered Revenue</div>
                         <div class="value" id="filteredRevenueVal" style="color: #0369a1;">₱0.00</div>
                         <small id="filteredCountLabel" style="color: var(--text-muted); font-size: 0.75rem;">0
-                            transactions recorded</small>
+                            transactions matched</small>
+                    </div>
+
+                    <!-- NEW: Dynamic Filtered Net Profit -->
+                    <div class="stat-card">
+                        <div class="label" id="filteredProfitLabel">Filtered Net Profit</div>
+                        <div class="value" id="filteredProfitVal" style="color: #15803d;">₱0.00</div>
+                        <small style="color: var(--text-muted); font-size: 0.75rem;">Estimated profit on
+                            selection</small>
                     </div>
                 </div>
 
@@ -461,9 +488,11 @@
                             <p style="font-size:0.78rem; color:var(--text-muted);">Module 13 &bull; View, edit, delete,
                                 and analyze sales by payment or month</p>
                         </div>
+
                         <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                             <input type="text" id="txSearchInput" class="form-control" style="width:160px;"
                                 placeholder="🔍 Search..." onkeyup="applyTransactionFilters()">
+
                             <select id="txPaymentFilter" class="form-control" style="width:140px;"
                                 onchange="applyTransactionFilters()">
                                 <option value="all">💳 All Payments</option>
@@ -472,16 +501,23 @@
                                 <option value="Bank Transfer">Bank Transfer</option>
                                 <option value="Card">Card</option>
                             </select>
+
+                            <!-- Month Selector for Module 13 -->
                             <input type="month" id="txMonthFilter" class="form-control" style="width:140px;"
                                 onchange="applyTransactionFilters()">
+
                             <button type="button" class="btn"
                                 style="padding:8px 12px; font-size:0.75rem; background:#64748b;"
                                 onclick="resetTxFilters()">Reset</button>
+
                             <button type="button" class="btn"
-                                style="background:var(--brand-gold); color:#fff; padding:8px 12px;"
-                                onclick="exportTxHistoryPDF()">📄 Export PDF</button>
+                                style="background:var(--brand-gold); color:#fff; display:inline-flex; align-items:center; gap:4px; padding:8px 12px;"
+                                onclick="exportTxHistoryPDF()">
+                                📄 Export PDF
+                            </button>
                         </div>
                     </div>
+
                     <table>
                         <thead>
                             <tr>
@@ -501,29 +537,68 @@
 
             <!-- EDIT TRANSACTION MODAL -->
             <div class="modal-overlay" id="editTxOverlay">
-                <div class="modal" style="max-width: 440px;">
+                <div class="modal" style="max-width: 540px; max-height: 90vh;">
                     <h2>Edit Transaction Record</h2>
                     <form id="editTxForm">
                         <input type="hidden" id="editTxTrn">
-                        <div class="form-group"><label>Customer Name *</label><input type="text" id="editTxCustomer"
-                                class="form-control" required></div>
-                        <div class="form-group"><label>Contact Number (+63) *</label><input type="text"
-                                id="editTxContact" class="form-control" maxlength="10" required></div>
-                        <div class="form-group"><label>Address *</label><input type="text" id="editTxAddress"
-                                class="form-control" required></div>
-                        <div class="form-group"><label>Payment Method</label>
-                            <select id="editTxPayment" class="form-control">
-                                <option value="Cash">Cash</option>
-                                <option value="GCash">GCash</option>
-                                <option value="Bank Transfer">Bank Transfer</option>
-                                <option value="Card">Card</option>
-                            </select>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Customer Name *</label>
+                                <input type="text" id="editTxCustomer" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Number *</label>
+                                <input type="text" id="editTxContact" class="form-control" required>
+                            </div>
                         </div>
-                        <div class="form-group"><label>Transaction Date</label><input type="date" id="editTxDate"
-                                class="form-control" required></div>
+
+                        <div class="form-group">
+                            <label>Address *</label>
+                            <input type="text" id="editTxAddress" class="form-control" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Payment Method</label>
+                                <select id="editTxPayment" class="form-control">
+                                    <option value="Cash">Cash</option>
+                                    <option value="GCash">GCash</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                    <option value="Card">Card</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Transaction Date</label>
+                                <input type="date" id="editTxDate" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <!-- Editable Products & Quantities -->
+                        <h4
+                            style="margin: 12px 0 6px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-muted);">
+                            Edit Items & Quantities</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th style="text-align:center;">Qty</th>
+                                    <th style="text-align:right;">Subtotal</th>
+                                    <th style="text-align:center;">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="editTxItemsBody"></tbody>
+                        </table>
+
+                        <div
+                            style="border-top:1px dashed var(--border-color); padding:10px 0; margin-top:10px; display:flex; justify-content:space-between; font-weight:700;">
+                            <span>Updated Total:</span>
+                            <span id="editTxTotalDisplay" style="color:var(--brand-gold);">₱0.00</span>
+                        </div>
+
                         <div class="modal-actions">
                             <button type="button" class="btn-secondary" onclick="closeEditTxModal()">Cancel</button>
-                            <button type="submit" class="btn-gold">Update Record</button>
+                            <button type="submit" class="btn-gold">Save & Flag Changes</button>
                         </div>
                     </form>
                 </div>
@@ -584,10 +659,7 @@
             </div>
 
             <!-- ================= 6. MODULE 14: SALES ANALYTICS ================= -->
-            <!-- ================= 6. MODULE 14: SALES ANALYTICS ================= -->
             <section id="view-analytics" class="view-panel">
-
-                <!-- 1. Monthly KPIs -->
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="label">Monthly Gross Revenue</div>
@@ -606,7 +678,6 @@
                     </div>
                 </div>
 
-                <!-- 2. Weekly Sales Performance Analysis (Month & Year Filter) -->
                 <div class="card">
                     <div
                         style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
@@ -617,7 +688,6 @@
                             </p>
                         </div>
 
-                        <!-- Month & Year Selector -->
                         <div style="display:flex; gap:10px; align-items:center;">
                             <button type="button" id="weeklyMonthAllBtn" class="cat-btn active"
                                 onclick="setWeeklyMonthFilter('all')">All Months</button>
@@ -654,7 +724,6 @@
                     </div>
                 </div>
 
-                <!-- 3. Category Sales Performance & Trends (RESTORED) -->
                 <div class="card">
                     <div
                         style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
@@ -673,7 +742,7 @@
                     </div>
 
                     <div class="bar-wrap">
-                        <div class="bar-info"><span> Bags & Leatherware</span><span id="catBagVal">₱0.00 (0%)</span>
+                        <div class="bar-info"><span>👜 Bags & Leatherware</span><span id="catBagVal">₱0.00 (0%)</span>
                         </div>
                         <div class="bar-bg">
                             <div class="bar-fill" id="catBagBar" style="width: 0%;"></div>
@@ -681,7 +750,7 @@
                     </div>
 
                     <div class="bar-wrap">
-                        <div class="bar-info"><span> Clothing & Evening Wear</span><span id="catClothingVal">₱0.00
+                        <div class="bar-info"><span>👗 Clothing & Evening Wear</span><span id="catClothingVal">₱0.00
                                 (0%)</span></div>
                         <div class="bar-bg">
                             <div class="bar-fill" id="catClothingBar" style="width: 0%;"></div>
@@ -689,7 +758,7 @@
                     </div>
 
                     <div class="bar-wrap">
-                        <div class="bar-info"><span> Fragrances & Perfume</span><span id="catPerfumeVal">₱0.00
+                        <div class="bar-info"><span>🌸 Fragrances & Perfume</span><span id="catPerfumeVal">₱0.00
                                 (0%)</span></div>
                         <div class="bar-bg">
                             <div class="bar-fill" id="catPerfumeBar" style="width: 0%;"></div>
@@ -697,7 +766,7 @@
                     </div>
 
                     <div class="bar-wrap">
-                        <div class="bar-info"><span> Body Care & Elixirs</span><span id="catBodyCareVal">₱0.00
+                        <div class="bar-info"><span>✨ Body Care & Elixirs</span><span id="catBodyCareVal">₱0.00
                                 (0%)</span></div>
                         <div class="bar-bg">
                             <div class="bar-fill" id="catBodyCareBar" style="width: 0%;"></div>
@@ -711,7 +780,7 @@
     </main>
 
     <!-- External Script -->
-    <script src="script.js"></script>
+    <script src="admin.js"></script>
 </body>
 
 </html>
