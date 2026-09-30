@@ -158,7 +158,7 @@ let nextAppointmentId = 1;
 
 let cart = [];
 let trnCounter = 1;
-document.getElementById('custDate').valueAsDate = new Date();
+document.getElementById('custDate').value = getLocalDateString(new Date());
 
 let transactionHistory = [];
 let currentTxView = [];
@@ -167,9 +167,9 @@ let currentTxView = [];
 // MODULE 12: CALENDAR LOGIC
 // ==========================================================
 
-let currentCalYear = 2026;
-let currentCalMonth = 8;
-let selectedCalDate = "2026-09-17";
+let currentCalYear = new Date().getFullYear();
+let currentCalMonth = new Date().getMonth();
+let selectedCalDate = getLocalDateString(new Date());
 
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -308,30 +308,7 @@ function formatDisplayDateTime(dateStr, timeStr) {
     return `${datePart} @ ${timePart}`;
 }
 
-function renderAppointments(list) {
-    const tbody = document.getElementById('appointments-rows');
-    const source = list || appointments;
 
-    if (source.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:20px;">No appointments found.</td></tr>`;
-        return;
-    }
-
-    let html = '';
-    for (let i = 0; i < source.length; i++) {
-        const appt = source[i];
-        const status = getAppointmentStatus(appt);
-        html += `
-      <tr>
-        <td><strong>${appt.clientName}</strong></td>
-        <td>${appt.service}</td>
-        <td>${formatDisplayDateTime(appt.date, appt.time)}</td>
-        <td><span class="badge ${status.cssClass}">${status.label}</span></td>
-      </tr>`;
-    }
-    tbody.innerHTML = html;
-    renderCalendar();
-}
 
 function searchAppointments() {
     const query = document.getElementById('appointmentSearchInput').value.toLowerCase();
@@ -374,7 +351,7 @@ function openBookingModal() {
 
     const now = new Date();
     if (now.getDay() === 0) now.setDate(now.getDate() + 1);
-    document.getElementById('bookDate').valueAsDate = now;
+    document.getElementById('bookDate').value = getLocalDateString(now);
 
     const curHour = now.getHours();
     if (curHour < 9 || curHour >= 17) {
@@ -505,19 +482,7 @@ document.getElementById('bookingForm').addEventListener('submit', function (e) {
     });
     nextAppointmentId++;
 
-    const now = new Date();
-    const datePart = extractDatePart(now.toISOString());
-    const fullTimestamp = `${datePart} ${padNumberWithZeros(now.getHours(), 2)}:${padNumberWithZeros(now.getMinutes(), 2)}:${padNumberWithZeros(now.getSeconds(), 2)}`;
-
-    arrayUnshiftFront(activityLogs, {
-        time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        user: "Agustin, Amos",
-        action: `Booked appointment for ${clientName} (${durationLabel})`,
-        date: datePart,
-        rawTimestamp: fullTimestamp,
-        isAnomaly: 0
-    });
-    bubbleSortLogs(document.getElementById('sortCriteria').value);
+    addLog(`Booked appointment for ${clientName} (${durationLabel})`, 0);
 
     closeBookingModal();
     renderAppointments();
@@ -573,133 +538,19 @@ function setManualQty(idx, val) {
     renderCart();
 }
 
-function renderCart() {
-    const tbody = document.getElementById('cart-rows');
-    if (cart.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">No items selected</td></tr>`;
-        document.getElementById('cart-total').innerText = '₱0.00';
-        return;
-    }
-    let total = 0;
-    let html = '';
-    for (let i = 0; i < cart.length; i++) {
-        const line = cart[i].price * cart[i].qty;
-        total += line;
-        html += `
-      <tr>
-        <td>
-          <strong>${cart[i].name}</strong><br>
-          <small style="color:var(--text-muted)">₱${cart[i].price.toLocaleString()}</small>
-        </td>
-        <td style="text-align:center; white-space:nowrap;">
-          <button type="button" class="qty-btn" onclick="updateQty(${i}, -1)">-</button>
-          <input type="number" min="1" step="1" value="${cart[i].qty}" class="qty-input" onkeydown="blockInvalidNumberKeys(event)" onchange="setManualQty(${i}, this.value)">
-          <button type="button" class="qty-btn" onclick="updateQty(${i}, 1)">+</button>
-        </td>
-        <td style="text-align:right; font-weight:600;">₱${line.toLocaleString()}</td>
-      </tr>`;
-    }
-    tbody.innerHTML = html;
-    document.getElementById('cart-total').innerText = `₱${total.toLocaleString()}.00`;
-}
+
 
 // ==========================================================
 // MODULE 13: TRANSACTION HISTORY & REVENUE (MANUAL LOOPS)
 // ==========================================================
 
-function calculateOverallRevenue() {
-    let masterTotal = 0;
-    for (let i = 0; i < transactionHistory.length; i++) {
-        masterTotal += transactionHistory[i].amount;
-    }
-    const overallElem = document.getElementById('overallRevenueVal');
-    if (overallElem) {
-        overallElem.innerText = `₱${masterTotal.toLocaleString()}.00`;
-    }
-}
 
-function applyTransactionFilters() {
-    const selectedPayment = document.getElementById('txPaymentFilter').value;
-    const selectedDate = document.getElementById('txDateFilter').value;
-    const searchElem = document.getElementById('txSearchInput');
-    const query = searchElem ? searchElem.value.toLowerCase().trim() : '';
 
-    let matchedList = [];
-    let dynamicRevenue = 0;
 
-    for (let i = 0; i < transactionHistory.length; i++) {
-        const item = transactionHistory[i];
 
-        if (selectedPayment !== 'all' && item.payment !== selectedPayment) continue;
-        if (selectedDate !== '' && item.date !== selectedDate) continue;
 
-        const combined = (item.trn + " " + item.customer + " " + item.payment + " " + item.date).toLowerCase();
-        if (!containsSubstring(combined, query)) continue;
 
-        arrayPush(matchedList, item);
-        dynamicRevenue += item.amount;
-    }
 
-    currentTxView = matchedList;
-
-    document.getElementById('filteredRevenueVal').innerText = `₱${dynamicRevenue.toLocaleString()}.00`;
-
-    const labelElem = document.getElementById('filteredRevenueLabel');
-    if (selectedPayment !== 'all' && selectedDate !== '') {
-        labelElem.innerText = `${selectedPayment} Revenue on ${selectedDate}`;
-    } else if (selectedPayment !== 'all') {
-        labelElem.innerText = `Total ${selectedPayment} Revenue`;
-    } else if (selectedDate !== '') {
-        labelElem.innerText = `Total Revenue on ${selectedDate}`;
-    } else {
-        labelElem.innerText = 'Filtered Revenue';
-    }
-
-    document.getElementById('filteredCountLabel').innerText = `${matchedList.length} of ${transactionHistory.length} transactions matched`;
-    renderTxTable(matchedList);
-}
-
-function renderTxTable(list) {
-    const tbody = document.getElementById('txHistoryRows');
-    if (!tbody) return;
-
-    if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:20px;">No transactions recorded yet. Complete a checkout in POS to see it here!</td></tr>`;
-        return;
-    }
-
-    let html = '';
-    for (let i = 0; i < list.length; i++) {
-        const item = list[i];
-        let badgeClass = 'badge-gold';
-        if (item.payment === 'Cash') badgeClass = 'badge-success';
-        if (item.payment === 'Card') badgeClass = 'badge-blue';
-
-        html += `
-      <tr>
-        <td><strong>${item.trn}</strong></td>
-        <td>${item.date}</td>
-        <td>${item.customer}</td>
-        <td style="color:var(--text-muted); font-size:0.78rem;">${item.contact}</td>
-        <td><span class="badge ${badgeClass}">${item.payment}</span></td>
-        <td><strong>₱${item.amount.toLocaleString()}.00</strong></td>
-        <td style="text-align:center;">
-          <button type="button" class="btn" style="padding: 5px 12px; font-size: 0.75rem; background: var(--brand-gold); color: #fff;" onclick="viewPastReceipt('${item.trn}')">
-            🧾 View Receipt
-          </button>
-        </td>
-      </tr>
-    `;
-    }
-    tbody.innerHTML = html;
-}
-
-function resetTxFilters() {
-    document.getElementById('txPaymentFilter').value = 'all';
-    document.getElementById('txDateFilter').value = '';
-    document.getElementById('txSearchInput').value = '';
-    applyTransactionFilters();
-}
 
 function viewPastReceipt(trnCode) {
     let targetTx = null;
@@ -742,9 +593,7 @@ function closePastReceiptModal() {
     document.getElementById('pastReceiptOverlay').classList.remove('open');
 }
 
-function printPastReceiptModal() {
-    window.print();
-}
+
 
 // ==========================================================
 // MODULE 14: SALES ANALYTICS (CATEGORIES, WEEKLY, MONTHLY)
@@ -752,19 +601,7 @@ function printPastReceiptModal() {
 
 let analyticsCategoryDate = 'all';
 
-function setAnalyticsDateFilter(dateVal) {
-    analyticsCategoryDate = dateVal;
-    const allBtn = document.getElementById('catDateAllBtn');
-    const input = document.getElementById('catDateInput');
 
-    if (dateVal === 'all') {
-        allBtn.classList.add('active');
-        input.value = '';
-    } else {
-        allBtn.classList.remove('active');
-    }
-    calculateCategoryAnalytics();
-}
 
 function calculateCategoryAnalytics() {
     let bagRev = 0;
@@ -820,19 +657,7 @@ function calculateCategoryAnalytics() {
 
 let analyticsWeeklyMonth = 'all';
 
-function setWeeklyMonthFilter(monthVal) {
-    analyticsWeeklyMonth = monthVal;
-    const allBtn = document.getElementById('weeklyMonthAllBtn');
-    const input = document.getElementById('weeklyMonthInput');
 
-    if (monthVal === 'all') {
-        allBtn.classList.add('active');
-        input.value = '';
-    } else {
-        allBtn.classList.remove('active');
-    }
-    calculateWeeklyAnalytics();
-}
 
 function calculateWeeklyAnalytics() {
     let w1 = 0, w2 = 0, w3 = 0, w4 = 0;
@@ -1098,16 +923,7 @@ function recordTransaction() {
     rec.style.display = 'block';
     rec.scrollIntoView({ behavior: 'smooth' });
 
-    const fullTimestamp = `${isoDate} ${padNumberWithZeros(now.getHours(), 2)}:${padNumberWithZeros(now.getMinutes(), 2)}:${padNumberWithZeros(now.getSeconds(), 2)}`;
-    arrayUnshiftFront(activityLogs, {
-        time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        user: "Agustin, Amos",
-        action: `Processed ${trnCode} for ${name} (₱${sum.toLocaleString()})`,
-        date: isoDate,
-        rawTimestamp: fullTimestamp,
-        isAnomaly: 0
-    });
-    bubbleSortLogs(document.getElementById('sortCriteria').value);
+    addLog(`Processed ${trnCode} for ${name} (₱${sum.toLocaleString()})`, 0);
 
     arrayUnshiftFront(transactionHistory, {
         trn: trnCode,
@@ -1175,7 +991,9 @@ function switchTab(viewId, el) {
     document.getElementById(`view-${viewId}`).classList.add('active-view');
     document.getElementById('top-title').innerText = el.querySelector('span').innerText;
 
-    if (viewId === 'appointments') {
+    if (viewId === 'dashboard') {
+        updateDashboard();
+    } else if (viewId === 'appointments') {
         renderCalendar();
     } else if (viewId === 'analytics') {
         calculateCategoryAnalytics();
@@ -1208,6 +1026,113 @@ function selectCategory(cat, btn) {
 // RESTORED MISSING ALGORITHMS
 // ==========================================================
 
+
+
+
+
+let currentLogsView = activityLogs;
+
+
+// INITIAL SETUP ON PAGE LOAD
+renderCustomerDropdown();
+if (customers.length > 0) onSelectCustomer(0);
+else handleContactInput(document.getElementById('custContact'));
+bubbleSortLogs('anomalies');
+renderAppointments();
+renderCalendar();
+
+calculateOverallRevenue();
+applyTransactionFilters();
+calculateCategoryAnalytics();
+calculateWeeklyAnalytics();
+
+// ==========================================================
+// HELPERS ----------
+function getLocalDateString(d) {
+    return d.getFullYear() + '-' + padNumberWithZeros(d.getMonth() + 1, 2) + '-' + padNumberWithZeros(d.getDate(), 2);
+}
+
+function escapeHtml(text) {
+    const s = '' + text;
+    let out = '';
+    for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        if (ch === '&') out += '&amp;';
+        else if (ch === '<') out += '&lt;';
+        else if (ch === '>') out += '&gt;';
+        else if (ch === '"') out += '&quot;';
+        else if (ch === "'") out += '&#39;';
+        else out += ch;
+    }
+    return out;
+}
+
+function formatPeso(n) {
+    return '₱' + n.toLocaleString() + '.00';
+}
+
+function findTxIndex(trn) {
+    for (let i = 0; i < transactionHistory.length; i++) {
+        if (transactionHistory[i].trn === trn) return i;
+    }
+    return -1;
+}
+
+function refreshAllTxViews() {
+    updateDashboard();
+    calculateOverallRevenue();
+    applyTransactionFilters();
+    calculateCategoryAnalytics();
+    calculateWeeklyAnalytics();
+}
+
+// ---------- ACTIVITY LOG: one helper + one view function ----------
+function addLog(action, isAnomaly) {
+    const now = new Date();
+    const datePart = getLocalDateString(now);
+    arrayUnshiftFront(activityLogs, {
+        time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        user: "Agustin, Amos",
+        action: action,
+        date: datePart,
+        rawTimestamp: datePart + ' ' + padNumberWithZeros(now.getHours(), 2) + ':' + padNumberWithZeros(now.getMinutes(), 2) + ':' + padNumberWithZeros(now.getSeconds(), 2),
+        isAnomaly: isAnomaly
+    });
+    bubbleSortLogs(document.getElementById('sortCriteria').value);
+}
+
+// Applies period filter + search on the (already sorted) activityLogs
+function refreshLogsView() {
+    const period = document.getElementById('logPeriodFilter').value;
+    const query = document.getElementById('logSearchInput').value.toLowerCase();
+    const today = new Date();
+    const todayStr = getLocalDateString(today);
+    const weekStr = getLocalDateString(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6));
+    const monthPrefix = todayStr.substring(0, 7);
+
+    let result = [];
+    for (let i = 0; i < activityLogs.length; i++) {
+        const log = activityLogs[i];
+        if (period === 'daily' && log.date !== todayStr) continue;
+        if (period === 'weekly' && (log.date < weekStr || log.date > todayStr)) continue;
+        if (period === 'monthly' && log.date.substring(0, 7) !== monthPrefix) continue;
+        const combined = (log.user + ' ' + log.action + ' ' + log.date + ' ' + log.time).toLowerCase();
+        if (!containsSubstring(combined, query)) continue;
+        arrayPush(result, log);
+    }
+
+    let label = 'Showing: All Records';
+    if (period === 'daily') label = 'Showing Daily: ' + todayStr;
+    else if (period === 'weekly') label = 'Showing Weekly: ' + weekStr + ' to ' + todayStr;
+    else if (period === 'monthly') label = 'Showing Monthly: ' + monthNames[today.getMonth()] + ' ' + today.getFullYear();
+    document.getElementById('logPeriodIndicator').innerText = label;
+
+    renderLogsTable(result);
+}
+
+function filterLogsByPeriod() { refreshLogsView(); }
+function linearSearchLogs() { refreshLogsView(); }
+
 function bubbleSortLogs(criteria) {
     let n = activityLogs.length;
     for (let i = 0; i < n - 1; i++) {
@@ -1228,23 +1153,12 @@ function bubbleSortLogs(criteria) {
             }
         }
     }
-    renderLogsTable(activityLogs);
+    refreshLogsView();
 }
 
-function linearSearchLogs() {
-    const query = document.getElementById('logSearchInput').value.toLowerCase();
-    let matched = [];
-    for (let i = 0; i < activityLogs.length; i++) {
-        const item = activityLogs[i];
-        const combined = (item.user + " " + item.action + " " + item.date + " " + item.time).toLowerCase();
-        if (containsSubstring(combined, query)) arrayPush(matched, item);
-    }
-    renderLogsTable(matched);
-}
-
-let currentLogsView = activityLogs;
 function renderLogsTable(list) {
-    currentLogsView = list || activityLogs;
+    list = list || activityLogs;
+    currentLogsView = list;
     const tbody = document.getElementById('log-rows');
     if (list.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:16px;">No logs found.</td></tr>`;
@@ -1258,8 +1172,8 @@ function renderLogsTable(list) {
         html += `
           <tr class="${rowClass}">
             <td><strong>${log.time}</strong></td>
-            <td>${log.user}</td>
-            <td>${log.action}</td>
+            <td>${escapeHtml(log.user)}</td>
+            <td>${escapeHtml(log.action)}</td>
             <td>${badge}</td>
             <td>${log.date}</td>
           </tr>`;
@@ -1267,15 +1181,305 @@ function renderLogsTable(list) {
     tbody.innerHTML = html;
 }
 
-// INITIAL SETUP ON PAGE LOAD
-renderCustomerDropdown();
-if (customers.length > 0) onSelectCustomer(0);
-else handleContactInput(document.getElementById('custContact'));
-bubbleSortLogs('anomalies');
-renderAppointments();
-renderCalendar();
+// ---------- POS CART: remove button ----------
+function removeCartItem(idx) {
+    arrayRemoveAt(cart, idx);
+    renderCart();
+}
 
-calculateOverallRevenue();
-applyTransactionFilters();
-calculateCategoryAnalytics();
-calculateWeeklyAnalytics();
+function renderCart() {
+    const tbody = document.getElementById('cart-rows');
+    if (cart.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">No items selected</td></tr>`;
+        document.getElementById('cart-total').innerText = '₱0.00';
+        return;
+    }
+    let total = 0;
+    let html = '';
+    for (let i = 0; i < cart.length; i++) {
+        const line = cart[i].price * cart[i].qty;
+        total += line;
+        html += `
+      <tr>
+        <td>
+          <strong>${escapeHtml(cart[i].name)}</strong><br>
+          <small style="color:var(--text-muted)">₱${cart[i].price.toLocaleString()}</small>
+        </td>
+        <td style="text-align:center; white-space:nowrap;">
+          <button type="button" class="qty-btn" onclick="updateQty(${i}, -1)">-</button>
+          <input type="number" min="1" step="1" value="${cart[i].qty}" class="qty-input" onkeydown="blockInvalidNumberKeys(event)" onchange="setManualQty(${i}, this.value)">
+          <button type="button" class="qty-btn" onclick="updateQty(${i}, 1)">+</button>
+        </td>
+        <td style="text-align:right; font-weight:600;">₱${line.toLocaleString()}</td>
+        <td style="text-align:center;">
+          <button type="button" style="background:#fee2e2; color:#ef4444; border:none; border-radius:4px; padding:3px 8px; font-weight:700; cursor:pointer;" onclick="removeCartItem(${i})">✖</button>
+        </td>
+      </tr>`;
+    }
+    tbody.innerHTML = html;
+    document.getElementById('cart-total').innerText = formatPeso(total);
+}
+
+// ---------- APPOINTMENTS: cancel ----------
+function cancelAppointment(id) {
+    let targetIdx = -1;
+    for (let i = 0; i < appointments.length; i++) {
+        if (appointments[i].id === id) {
+            targetIdx = i;
+            break;
+        }
+    }
+    if (targetIdx === -1) return;
+
+    const appt = appointments[targetIdx];
+    if (getAppointmentStatus(appt).label === 'Completed') {
+        return alert('Completed appointments cannot be cancelled.');
+    }
+    if (!confirm(`Cancel the appointment for ${appt.clientName}?`)) return;
+
+    arrayRemoveAt(appointments, targetIdx);
+    updateDashboard();
+    addLog(`Cancelled appointment for ${appt.clientName}`, 0);
+    renderAppointments(); // also refreshes the calendar
+    alert(`Appointment for ${appt.clientName} has been cancelled.`);
+}
+
+function renderAppointments(list) {
+    const tbody = document.getElementById('appointments-rows');
+    const source = list || appointments;
+
+    if (source.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:20px;">No appointments found.</td></tr>`;
+        renderCalendar();
+        return;
+    }
+
+    let html = '';
+    for (let i = 0; i < source.length; i++) {
+        const appt = source[i];
+        const status = getAppointmentStatus(appt);
+        html += `
+      <tr>
+        <td><strong>${escapeHtml(appt.clientName)}</strong></td>
+        <td>${escapeHtml(appt.service)}</td>
+        <td>${formatDisplayDateTime(appt.date, appt.time)}</td>
+        <td><span class="badge ${status.cssClass}">${status.label}</span></td>
+        <td style="text-align:center;">
+          <button type="button" style="background:#fff; border:1px solid #ef4444; color:#ef4444; border-radius:4px; padding:3px 8px; font-size:0.72rem; cursor:pointer;" onclick="cancelAppointment(${appt.id})">Cancel</button>
+        </td>
+      </tr>`;
+    }
+    tbody.innerHTML = html;
+    renderCalendar();
+}
+
+// ---------- TRANSACTION HISTORY: profit, month filter, edit, delete ----------
+function calculateOverallRevenue() {
+    let masterTotal = 0;
+    for (let i = 0; i < transactionHistory.length; i++) {
+        masterTotal += transactionHistory[i].amount;
+    }
+    // Estimated profit = 40% of sales (integer math avoids floating-point errors)
+    const profitTotal = Math.round(masterTotal * 40 / 100);
+
+    const overallElem = document.getElementById('overallRevenueVal');
+    const profitElem = document.getElementById('overallProfitVal');
+    if (overallElem) overallElem.innerText = formatPeso(masterTotal);
+    if (profitElem) profitElem.innerText = formatPeso(profitTotal);
+}
+
+function applyTransactionFilters() {
+    const selectedPayment = document.getElementById('txPaymentFilter').value;
+    const selectedMonth = document.getElementById('txMonthFilter').value; // YYYY-MM
+    const query = document.getElementById('txSearchInput').value.toLowerCase().trim();
+
+    let matchedList = [];
+    let dynamicRevenue = 0;
+
+    for (let i = 0; i < transactionHistory.length; i++) {
+        const item = transactionHistory[i];
+        if (selectedPayment !== 'all' && item.payment !== selectedPayment) continue;
+        if (selectedMonth !== '' && item.date.substring(0, 7) !== selectedMonth) continue;
+
+        const combined = (item.trn + " " + item.customer + " " + item.payment + " " + item.date).toLowerCase();
+        if (!containsSubstring(combined, query)) continue;
+
+        arrayPush(matchedList, item);
+        dynamicRevenue += item.amount;
+    }
+
+    currentTxView = matchedList;
+    document.getElementById('filteredRevenueVal').innerText = formatPeso(dynamicRevenue);
+
+    const labelElem = document.getElementById('filteredRevenueLabel');
+    if (selectedPayment !== 'all' && selectedMonth !== '') labelElem.innerText = `${selectedPayment} Revenue in ${selectedMonth}`;
+    else if (selectedPayment !== 'all') labelElem.innerText = `Total ${selectedPayment} Revenue`;
+    else if (selectedMonth !== '') labelElem.innerText = `Total Revenue in ${selectedMonth}`;
+    else labelElem.innerText = 'Filtered Revenue';
+
+    document.getElementById('filteredCountLabel').innerText = `${matchedList.length} of ${transactionHistory.length} transactions matched`;
+    renderTxTable(matchedList);
+}
+
+function renderTxTable(list) {
+    const tbody = document.getElementById('txHistoryRows');
+    if (!tbody) return;
+
+    if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:20px;">No transactions recorded.</td></tr>`;
+        return;
+    }
+
+    let html = '';
+    for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        let badgeClass = 'badge-gold';
+        if (item.payment === 'Cash') badgeClass = 'badge-success';
+        if (item.payment === 'Card') badgeClass = 'badge-blue';
+
+        html += `
+      <tr>
+        <td><strong>${item.trn}</strong></td>
+        <td>${item.date}</td>
+        <td>${escapeHtml(item.customer)}</td>
+        <td style="color:var(--text-muted); font-size:0.78rem;">${escapeHtml(item.contact)}</td>
+        <td><span class="badge ${badgeClass}">${item.payment}</span></td>
+        <td><strong>${formatPeso(item.amount)}</strong></td>
+        <td style="text-align:center; white-space:nowrap;">
+          <button type="button" class="btn" style="padding:4px 8px; font-size:0.75rem; background:var(--brand-gold); color:#fff;" onclick="viewPastReceipt('${item.trn}')">🧾 View</button>
+          <button type="button" class="btn" style="padding:4px 8px; font-size:0.75rem; background:#3b82f6; color:#fff;" onclick="openEditTxModal('${item.trn}')">✏️ Edit</button>
+          <button type="button" class="btn" style="padding:4px 8px; font-size:0.75rem; background:#ef4444; color:#fff;" onclick="deleteTransaction('${item.trn}')">🗑️ Delete</button>
+        </td>
+      </tr>`;
+    }
+    tbody.innerHTML = html;
+}
+
+function resetTxFilters() {
+    document.getElementById('txPaymentFilter').value = 'all';
+    document.getElementById('txMonthFilter').value = '';
+    document.getElementById('txSearchInput').value = '';
+    applyTransactionFilters();
+}
+
+function deleteTransaction(trnCode) {
+    const idx = findTxIndex(trnCode);
+    if (idx === -1) return;
+    if (!confirm(`Delete transaction ${trnCode}? This action cannot be undone.`)) return;
+
+    const deleted = transactionHistory[idx];
+    arrayRemoveAt(transactionHistory, idx);
+    addLog(`Deleted transaction ${trnCode} (₱${deleted.amount.toLocaleString()})`, 1);
+    refreshAllTxViews();
+    alert(`Transaction ${trnCode} has been deleted.`);
+}
+
+function openEditTxModal(trnCode) {
+    const idx = findTxIndex(trnCode);
+    if (idx === -1) return;
+    const tx = transactionHistory[idx];
+
+    // contact is stored as "+63 9XXXXXXXXX"; show only the 10 digits
+    let digits = '';
+    for (let i = 0; i < tx.contact.length; i++) {
+        if (isDigitChar(tx.contact[i])) digits += tx.contact[i];
+    }
+    if (digits.length === 12) digits = digits.substring(2);
+
+    document.getElementById('editTxTrn').value = tx.trn;
+    document.getElementById('editTxCustomer').value = tx.customer;
+    document.getElementById('editTxContact').value = digits;
+    document.getElementById('editTxAddress').value = tx.address || '';
+    document.getElementById('editTxPayment').value = tx.payment;
+    document.getElementById('editTxDate').value = tx.date;
+    document.getElementById('editTxOverlay').classList.add('open');
+}
+
+function closeEditTxModal() {
+    document.getElementById('editTxOverlay').classList.remove('open');
+}
+
+document.getElementById('editTxForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const trn = document.getElementById('editTxTrn').value;
+    const idx = findTxIndex(trn);
+    if (idx === -1) return;
+
+    const rawContact = document.getElementById('editTxContact').value;
+    let contact = '';
+    for (let i = 0; i < rawContact.length; i++) {
+        if (isDigitChar(rawContact[i])) contact += rawContact[i];
+    }
+    if (!isValidPhilippineMobile(contact)) {
+        return alert('⚠️ Enter a valid 10-digit Philippine number starting with 9.');
+    }
+
+    const tx = transactionHistory[idx];
+    tx.customer = document.getElementById('editTxCustomer').value.trim();
+    tx.contact = '+63 ' + contact;
+    tx.address = document.getElementById('editTxAddress').value.trim();
+    tx.payment = document.getElementById('editTxPayment').value;
+    tx.date = document.getElementById('editTxDate').value;
+    tx.formattedDate = new Date(tx.date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    addLog(`Edited transaction record ${trn}`, 0);
+    closeEditTxModal();
+    refreshAllTxViews();
+    alert(`Transaction ${trn} updated successfully!`);
+});
+
+// ---------- SMALL FIXES ----------
+// Clearing a date/month input sends '' — treat it as "All"
+function setAnalyticsDateFilter(dateVal) {
+    if (dateVal === '') dateVal = 'all';
+    analyticsCategoryDate = dateVal;
+    const allBtn = document.getElementById('catDateAllBtn');
+    if (dateVal === 'all') {
+        allBtn.classList.add('active');
+        document.getElementById('catDateInput').value = '';
+    } else {
+        allBtn.classList.remove('active');
+    }
+    calculateCategoryAnalytics();
+}
+
+function setWeeklyMonthFilter(monthVal) {
+    if (monthVal === '') monthVal = 'all';
+    analyticsWeeklyMonth = monthVal;
+    const allBtn = document.getElementById('weeklyMonthAllBtn');
+    if (monthVal === 'all') {
+        allBtn.classList.add('active');
+        document.getElementById('weeklyMonthInput').value = '';
+    } else {
+        allBtn.classList.remove('active');
+    }
+    calculateWeeklyAnalytics();
+}
+
+// Prevents the POS receipt from printing together with a past receipt
+// (needs the .printing-past CSS rule)
+function printPastReceiptModal() {
+    document.body.classList.add('printing-past');
+    window.print();
+    document.body.classList.remove('printing-past');
+}
+
+// ---------- DASHBOARD (live numbers) ----------
+function updateDashboard() {
+    const today = getLocalDateString(new Date());
+    let sales = 0, orders = 0, apptCount = 0;
+    for (let i = 0; i < transactionHistory.length; i++) {
+        if (transactionHistory[i].date === today) {
+            sales += transactionHistory[i].amount;
+            orders++;
+        }
+    }
+    for (let i = 0; i < appointments.length; i++) {
+        if (appointments[i].date === today) apptCount++;
+    }
+    document.getElementById('dashSales').innerText = formatPeso(sales);
+    document.getElementById('dashOrders').innerText = orders;
+    document.getElementById('dashAppts').innerText = apptCount + ' Scheduled';
+}
+updateDashboard();
