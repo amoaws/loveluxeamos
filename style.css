@@ -721,3 +721,10 @@ th {
         display: none !important;
     }
 }
+
+/* Hide POS receipt while printing a past receipt */
+@media print {
+    .printing-past #receipt-section {
+        display: none !important;
+    }
+}
