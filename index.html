@@ -62,19 +62,19 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="label">Today's Sales</div>
-                        <div class="value">₱18,450.00</div>
+                        <div class="value" id="dashSales">₱0.00</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Total Orders</div>
-                        <div class="value">14</div>
+                        <div class="value" id="dashOrders">0</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Appointments Today</div>
-                        <div class="value">2 Scheduled</div>
+                        <div class="value" id="dashAppts">0 Scheduled</div>
                     </div>
                     <div class="stat-card">
                         <div class="label">Low Stock Alerts</div>
-                        <div class="value" style="color: var(--danger);">2 Items</div>
+                        <div class="value" style="color: var(--text-muted);">—</div>
                     </div>
                 </div>
                 <div class="card">
@@ -176,11 +176,12 @@
                                     <th>Product</th>
                                     <th style="text-align:center;">Qty</th>
                                     <th style="text-align:right;">Total</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody id="cart-rows">
                                 <tr>
-                                    <td colspan="3" style="text-align:center; color:var(--text-muted);">No items
+                                    <td colspan="4" style="text-align:center; color:var(--text-muted);">No items
                                         selected</td>
                                 </tr>
                             </tbody>
@@ -310,6 +311,7 @@
                                 <th>Service/Type</th>
                                 <th>Date & Time</th>
                                 <th>Status</th>
+                                <th style="text-align:center;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="appointments-rows"></tbody>
@@ -335,7 +337,6 @@
                                 <option value="">-- Select a Service --</option>
                                 <option value="Size & Fitting">Size & Fitting</option>
                                 <option value="Fragrance Shopping">Fragrance Shopping</option>
-                                <option value="">Fragrance Shopping</option>
                                 <option value="Other">Others (Please specify)</option>
                             </select>
                         </div>
@@ -388,23 +389,30 @@
                 <div class="card">
                     <div
                         style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
-                        <h3 style="font-size:1.15rem;">System Activity Audit</h3>
+                        <div>
+                            <h3 style="font-size:1.15rem;">System Activity Audit</h3>
+                            <small id="logPeriodIndicator" style="color:var(--brand-gold); font-weight:600;">Showing:
+                                All Records</small>
+                        </div>
                         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                            <input type="text" id="logSearchInput" class="form-control" style="width:200px;"
-                                placeholder="🔍 Search logs..." onkeyup="linearSearchLogs()">
-
-                            <select id="sortCriteria" class="form-control" style="width:170px;"
+                            <select id="logPeriodFilter" class="form-control" style="width:160px;"
+                                onchange="refreshLogsView()">
+                                <option value="all">📅 All Time</option>
+                                <option value="daily">📅 Today (Daily)</option>
+                                <option value="weekly">📅 Past 7 Days (Weekly)</option>
+                                <option value="monthly">📅 This Month (Monthly)</option>
+                            </select>
+                            <input type="text" id="logSearchInput" class="form-control" style="width:170px;"
+                                placeholder="🔍 Search logs..." onkeyup="refreshLogsView()">
+                            <select id="sortCriteria" class="form-control" style="width:150px;"
                                 onchange="bubbleSortLogs(this.value)">
                                 <option value="anomalies"> ❗ANOMALY</option>
                                 <option value="date-desc"> Date (Newest First)</option>
                                 <option value="date-asc"> Date (Oldest First)</option>
                             </select>
-
                             <button type="button" class="btn"
-                                style="background:var(--brand-gold); color:#fff; display:inline-flex; align-items:center; gap:6px; padding:8px 14px;"
-                                onclick="exportAuditLogPDF()">
-                                📄 Export PDF
-                            </button>
+                                style="background:var(--brand-gold); color:#fff; padding:8px 14px;"
+                                onclick="exportAuditLogPDF()">📄 Export PDF</button>
                         </div>
                     </div>
 
@@ -431,10 +439,15 @@
                         <div class="value" id="overallRevenueVal" style="color: var(--brand-gold);">₱0.00</div>
                         <small style="color: var(--text-muted); font-size: 0.75rem;">Lifetime gross sales</small>
                     </div>
-
+                    <div class="stat-card">
+                        <div class="label">Estimated Net Profit</div>
+                        <div class="value" id="overallProfitVal" style="color: #166534;">₱0.00</div>
+                        <small style="color: var(--text-muted); font-size: 0.75rem;">Estimate: 40% of gross
+                            sales</small>
+                    </div>
                     <div class="stat-card">
                         <div class="label" id="filteredRevenueLabel">Filtered Revenue</div>
-                        <div class="value" id="filteredRevenueVal" style="color: #166534;">₱0.00</div>
+                        <div class="value" id="filteredRevenueVal" style="color: #0369a1;">₱0.00</div>
                         <small id="filteredCountLabel" style="color: var(--text-muted); font-size: 0.75rem;">0
                             transactions recorded</small>
                     </div>
@@ -445,15 +458,13 @@
                         style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
                         <div>
                             <h3 style="font-size:1.15rem;">Transaction Ledger & Revenue Breakdown</h3>
-                            <p style="font-size:0.78rem; color:var(--text-muted);">Module 13 &bull; Filter by payment
-                                method or date to compute subtotal revenues</p>
+                            <p style="font-size:0.78rem; color:var(--text-muted);">Module 13 &bull; View, edit, delete,
+                                and analyze sales by payment or month</p>
                         </div>
-
-                        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                            <input type="text" id="txSearchInput" class="form-control" style="width:180px;"
-                                placeholder="🔍 Search receipt or name..." onkeyup="applyTransactionFilters()">
-
-                            <select id="txPaymentFilter" class="form-control" style="width:150px;"
+                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                            <input type="text" id="txSearchInput" class="form-control" style="width:160px;"
+                                placeholder="🔍 Search..." onkeyup="applyTransactionFilters()">
+                            <select id="txPaymentFilter" class="form-control" style="width:140px;"
                                 onchange="applyTransactionFilters()">
                                 <option value="all">💳 All Payments</option>
                                 <option value="Cash">Cash</option>
@@ -461,22 +472,16 @@
                                 <option value="Bank Transfer">Bank Transfer</option>
                                 <option value="Card">Card</option>
                             </select>
-
-                            <input type="date" id="txDateFilter" class="form-control" style="width:145px;"
+                            <input type="month" id="txMonthFilter" class="form-control" style="width:140px;"
                                 onchange="applyTransactionFilters()">
-
                             <button type="button" class="btn"
                                 style="padding:8px 12px; font-size:0.75rem; background:#64748b;"
                                 onclick="resetTxFilters()">Reset</button>
-
                             <button type="button" class="btn"
-                                style="background:var(--brand-gold); color:#fff; display:inline-flex; align-items:center; gap:6px; padding:8px 14px;"
-                                onclick="exportTxHistoryPDF()">
-                                📄 Export PDF
-                            </button>
+                                style="background:var(--brand-gold); color:#fff; padding:8px 12px;"
+                                onclick="exportTxHistoryPDF()">📄 Export PDF</button>
                         </div>
                     </div>
-
                     <table>
                         <thead>
                             <tr>
@@ -486,13 +491,43 @@
                                 <th>Contact</th>
                                 <th>Payment Method</th>
                                 <th>Amount</th>
-                                <th style="text-align:center;">Action</th>
+                                <th style="text-align:center;">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="txHistoryRows"></tbody>
                     </table>
                 </div>
             </section>
+
+            <!-- EDIT TRANSACTION MODAL -->
+            <div class="modal-overlay" id="editTxOverlay">
+                <div class="modal" style="max-width: 440px;">
+                    <h2>Edit Transaction Record</h2>
+                    <form id="editTxForm">
+                        <input type="hidden" id="editTxTrn">
+                        <div class="form-group"><label>Customer Name *</label><input type="text" id="editTxCustomer"
+                                class="form-control" required></div>
+                        <div class="form-group"><label>Contact Number (+63) *</label><input type="text"
+                                id="editTxContact" class="form-control" maxlength="10" required></div>
+                        <div class="form-group"><label>Address *</label><input type="text" id="editTxAddress"
+                                class="form-control" required></div>
+                        <div class="form-group"><label>Payment Method</label>
+                            <select id="editTxPayment" class="form-control">
+                                <option value="Cash">Cash</option>
+                                <option value="GCash">GCash</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
+                                <option value="Card">Card</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Transaction Date</label><input type="date" id="editTxDate"
+                                class="form-control" required></div>
+                        <div class="modal-actions">
+                            <button type="button" class="btn-secondary" onclick="closeEditTxModal()">Cancel</button>
+                            <button type="submit" class="btn-gold">Update Record</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <!-- PAST TRANSACTION RECEIPT MODAL -->
             <div class="modal-overlay" id="pastReceiptOverlay">
